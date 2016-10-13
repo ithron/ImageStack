@@ -78,6 +78,12 @@ target_include_directories(ImageStack INTERFACE
 
 add_library(ImageStack::ImageStack ALIAS ImageStack)
 
+option(BUILD_TESTING "Build tests" ON)
+if(BUILD_TESTING)
+  enable_testing()
+  add_subdirectory(Tests)
+endif()
+
 ###############################
 #Install and packaging
 
