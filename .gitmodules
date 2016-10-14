@@ -1,6 +1,6 @@
-[submodule "Dependencies/eigen"]
-	path = Dependencies/eigen
-	url = https://github.com/ithron/eigen.git
 [submodule "Dependencies/googletest"]
 	path = Dependencies/googletest
 	url = https://github.com/google/googletest.git
+[submodule "Dependencies/eigen"]
+	path = Dependencies/eigen
+	url = https://github.com/ithron/eigen.git
