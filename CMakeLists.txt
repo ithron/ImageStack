@@ -64,14 +64,16 @@ if (${CMAKE_COMPILER_IS_GNUCXX})
   )
 endif()
 
+set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCIES_DIR}/cmake")
+
+include(ImportGSL)
+include(ImportEigen)
 
 ADD_LIBRARY(ImageStack INTERFACE)
 target_compile_features(ImageStack INTERFACE ${DEFAULT_COMPILE_FEATURES})
 target_compile_options(ImageStack INTERFACE ${DEFAULT_COMPILER_OPTIONS})
-target_include_directories(ImageStack SYSTEM INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Dependencies/eigen>
-  $<INSTALL_INTERFACE:include/ImageStack/eigen>
-)
+target_link_libraries(ImageStack INTERFACE GSL Eigen)
 target_include_directories(ImageStack INTERFACE
   $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 )
@@ -105,6 +107,9 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/
 )
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/Dependencies/eigen/Eigen
   DESTINATION include/ImageStack/eigen
+)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/Dependencies/GSL/gsl
+  DESTINATION include/ImageStack
 )
 export(EXPORT ImageStackExport NAMESPACE ImageStack::)
 

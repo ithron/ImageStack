@@ -8,7 +8,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/Dependencies/googletest googletest)
 set(CMAKE_BUILD_TYPE ${BUILD_TYPE})
 
 add_executable(TestBSTLoader Source/testBSTLoader.cpp)
-target_link_libraries(TestBSTLoader PRIVATE gtest_main)
+target_link_libraries(TestBSTLoader PRIVATE ImageStack gtest_main)
 
 add_test(TestBSTLoader TestBSTLoader)
 
