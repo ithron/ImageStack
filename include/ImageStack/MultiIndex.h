@@ -40,7 +40,8 @@ namespace ImageStack {
 ///
 /// @note Should be specialized for models of \ref MultiIndexConcept that do not
 /// have a std::tuple_size<> specialization.
-template <class T, typename = void> struct Dims;
+template <class T, typename = void>
+struct Dims : public std::integral_constant<std::size_t, 0> {};
 
 // Overload for every type with an std::tuple_size specialization
 template <class T>
@@ -70,12 +71,14 @@ template <class I> constexpr std::size_t dims(I const &) noexcept {
 }
 
 /// Tests if @c T is a model of \ref MultiIndexConcept.
+template <class T, typename = void>
+struct isModelOfMultiIndex : public std::false_type {};
+
 template <class T>
-struct isModelOfMultiIndex
-    : public std::integral_constant<
-          bool, std::is_convertible<decltype(std::declval<T>()[0]),
-                                    std::size_t>::value &&
-                    (dims_v<T>> 0)> {};
+struct isModelOfMultiIndex<
+    T, std::enable_if_t<std::is_convertible<decltype(std::declval<T>()[0]),
+                                            std::size_t>::value &&
+                        (dims_v<T>> 0)>> : public std::true_type {};
 
 /// Alias for isModelOfMultiIndex<T>::value
 template <class T>
@@ -139,13 +142,38 @@ toLinear(I const &i, S const &s) noexcept(noexcept(i[0]) && noexcept(s[0])) {
   return toLinearReorder(i, s, std::make_index_sequence<dims_v<I>>());
 }
 
-static_assert(toLinear(std::array<std::size_t, 2>{{1, 2}},
-                       std::array<std::size_t, 2>{{10, 20}}) == 21,
-              "Error");
-static_assert(toLinearReorder(std::array<std::size_t, 2>{{1, 2}},
-                              std::array<std::size_t, 2>{{10, 20}},
-                              std::index_sequence<1, 0>{}) == 22,
-              "Error");
+/// Converts the given multi index to a linear index, overload for 1d indices
+///
+/// This function is an overload of toLinear for linear indices
+/// @tparam S model of \ref MultiIndexConcept
+/// @param i index to convert
+/// @return linear representation of the multi index i
+template <class S, typename = std::enable_if_t<isModelOfMultiIndex_v<S>>>
+constexpr std::size_t toLinear(std::size_t i, S const &) noexcept {
+  return i;
+}
+
+/// Computed the sum of all indices of a multi index
+/// @tparam I model of \ref MultiIndexConcept
+/// @param i multi index
+/// @return sum of all indices in @c i
+template <class I, typename = std::enable_if_t<isModelOfMultiIndex_v<I>>>
+constexpr auto indexSum(I const &i) noexcept(noexcept(i[0])) {
+  auto sum = i[0];
+  for (int j = 1; j < dims_v<I>; ++j) sum += i[j];
+  return sum;
+}
+
+/// Computed the product of all indices of a multi index
+/// @tparam I model of \ref MultiIndexConcept
+/// @param i multi index
+/// @return sum of all indices in @c i
+template <class I, typename = std::enable_if_t<isModelOfMultiIndex_v<I>>>
+constexpr auto indexProduct(I const &i) noexcept(noexcept(i[0])) {
+  auto prod = i[0];
+  for (int j = 1; j < dims_v<I>; ++j) prod *= i[j];
+  return prod;
+}
 
 /// @}
 
