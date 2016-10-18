@@ -1,0 +1,166 @@
+branches:
+  except:
+    - gh-pages
+
+language: c++
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - george-edison55-precise-backports
+      - llvm-toolchain-precise-3.8
+    packages:
+      - g++-5
+      - g++-6
+      - cmake
+      - cmake-data
+      - doxygen
+      - doxygen-doc
+      - graphviz
+
+env:
+  global:
+    - GH_REPO_NAME: ImageStack
+    - GH_REPO_REF: github.com/ithron/ImageStack.git
+    - DOXYFILE: $TRAVIS_BUILD_DIR/Doxyfile
+
+matrix:
+  include:
+    - os: osx
+      env: BUILD_TYPE=Debug
+      osx_image: xcode7.3
+
+    - os: osx
+      env: BUILD_TYPE=Release
+      osx_image: xcode7.3
+
+    - os: osx
+      env: BUILD_TYPE=Debug
+      osx_image: xcode8
+
+    - os: osx
+      env: BUILD_TYPE=Release
+      osx_image: xcode8
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: BUILD_TYPE=Debug CLANG_VERSION=3.7.0
+      compiler: clang
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: BUILD_TYPE=Release CLANG_VERSION=3.7.0
+      compiler: clang
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: BUILD_TYPE=Debug CLANG_VERSION=3.7.1
+      compiler: clang
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: BUILD_TYPE=Release CLANG_VERSION=3.7.1
+      compiler: clang
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: BUILD_TYPE=Debug CLANG_VERSION=3.8.0
+      compiler: clang
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: BUILD_TYPE=Release CLANG_VERSION=3.8.0
+      compiler: clang
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: BUILD_TYPE=Debug CLANG_VERSION=3.8.1
+      compiler: clang
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: BUILD_TYPE=Release CLANG_VERSION=3.8.1
+      compiler: clang
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: BUILD_TYPE=Debug GCC_VERSION=5
+      compiler: gcc
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: BUILD_TYPE=Release GCC_VERSION=5
+      compiler: gcc
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: BUILD_TYPE=Debug GCC_VERSION=6
+      compiler: gcc
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: BUILD_TYPE=Release GCC_VERSION=6
+      compiler: gcc
+
+before_install:
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      if [ "$CXX" = "clang++" ]; then
+        export DEPS_DIR=${TRAVIS_BUILD_DIR}/deps
+        export CLANG_DIR=${DEPS_DIR}/clang-$CLANG_VERSION
+        mkdir -p ${CLANG_DIR}
+        curl http://llvm.org/releases/$CLANG_VERSION/clang+llvm-$CLANG_VERSION-x86_64-linux-gnu-ubuntu-14.04.tar.xz |
+          tar xJ -C $CLANG_DIR --strip-components 1
+        export CPPFLAGS="-isystem $CLANG_DIR/include/c++/v1"
+        export CXXFLAGS="-stdlib=libc++"
+        export LDFLAGS="-L$CLANG_DIR/lib -lc++abi"
+        export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CLANG_DIR/lib"
+        export CXX="$CLANG_DIR/bin/clang++" CC="$CLANG_DIR/bin/clang"
+      elif [ "$CXX" = "g++" ]; then
+        export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"
+      fi
+    fi
+
+before_script:
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      cmake -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBUILD_SHARED_LIBS=ON -DFIX_MISSING_GL_IMPLEMENTATIONS=1
+    elif [ "$TRAVIS_OS_NAME" = "osx" ]; then
+      brew update
+      brew upgrade cmake
+      cmake -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -GXcode
+    fi
+
+script:
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      make all && make test
+    elif [ "$TRAVIS_OS_NAME" = "osx" ]; then
+      set -o pipefail &&
+        xcodebuild build -scheme ALL_BUILD -configuration="${BUILD_TYPE}" &&
+          xcodebuild -scheme RUN_TESTS -configuration="${BUILD_TYPE}"
+    fi
+
+after_success:
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      if [ "$CREATE_DOC" = "yes" ]; then
+        cd $TRAVIS_BUILD_DIR
+        chmod +x generateDocumentationAndDeploy.sh
+        ./generateDocumentationAndDeploy.sh
+      fi
+    fi
+
