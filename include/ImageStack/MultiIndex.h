@@ -108,9 +108,9 @@ toLinearReorder(I const &i, S const &s,
                     std::index_sequence<Order...>{}) noexcept(noexcept(i[0]) &&
                                                               noexcept(s[0])) {
   using std::size_t;
-  static_assert(
-      dims_v<I> <= dims_v<S>,
-      "Number of dimensions of I must not exceed number of dimensions of S");
+  static_assert(dims_v<I> - 1 <= dims_v<S>, "Number of dimensions of I - 1 "
+                                            "must not exceed number of "
+                                            "dimensions of S");
   static_assert(
       dims_v<I> == sizeof...(Order),
       "Number of ordering elements does not match number of dimensions of I");
