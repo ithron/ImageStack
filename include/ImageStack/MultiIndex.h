@@ -108,8 +108,9 @@ toLinearReorder(I const &i, S const &s,
                     std::index_sequence<Order...>{}) noexcept(noexcept(i[0]) &&
                                                               noexcept(s[0])) {
   using std::size_t;
-  static_assert(dims_v<I> == dims_v<S>,
-                "Number of dimensions of I and S do not match");
+  static_assert(
+      dims_v<I> <= dims_v<S>,
+      "Number of dimensions of I must not exceed number of dimensions of S");
   static_assert(
       dims_v<I> == sizeof...(Order),
       "Number of ordering elements does not match number of dimensions of I");
@@ -149,4 +150,3 @@ static_assert(toLinearReorder(std::array<std::size_t, 2>{{1, 2}},
 /// @}
 
 } // namespace ImageStack
-
