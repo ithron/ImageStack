@@ -18,6 +18,7 @@ addons:
       - doxygen
       - doxygen-doc
       - graphviz
+      - libpthread-stubs0-dev
 
 env:
   global:
@@ -150,7 +151,8 @@ script:
       make all && make test
     elif [ "$TRAVIS_OS_NAME" = "osx" ]; then
       set -o pipefail &&
-        xcodebuild build -scheme ALL_BUILD -configuration="${BUILD_TYPE}" &&
+        xcodebuild -list &&
+        xcodebuild build -configuration="${BUILD_TYPE}" &&
           xcodebuild -scheme RUN_TESTS -configuration="${BUILD_TYPE}"
     fi
 
