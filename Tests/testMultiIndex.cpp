@@ -41,6 +41,8 @@ TEST(MultiIndex, toLinear) {
   ASSERT_EQ(58, toLinear(i2, s));
   ASSERT_EQ(154, toLinear(i3, s));
   ASSERT_EQ(297, toLinear(i4, s));
+
+  ASSERT_EQ(23, toLinear(23, s));
 }
 
 TEST(MultiIndex, toLinearReorder) {
