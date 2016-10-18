@@ -138,7 +138,8 @@ before_install:
 before_script:
   - |
     if [ "$TRAVIS_OS_NAME" = "linux" ]; then
-      cmake -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBUILD_SHARED_LIBS=ON -DFIX_MISSING_GL_IMPLEMENTATIONS=1
+      cmake --version
+      cmake -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
     elif [ "$TRAVIS_OS_NAME" = "osx" ]; then
       brew update
       brew upgrade cmake
@@ -151,9 +152,8 @@ script:
       make all && make test
     elif [ "$TRAVIS_OS_NAME" = "osx" ]; then
       set -o pipefail &&
-        xcodebuild -list &&
-        xcodebuild build -configuration="${BUILD_TYPE}" &&
-          xcodebuild -scheme RUN_TESTS -configuration="${BUILD_TYPE}"
+        xcodebuild build -target ALL_BUILD -configuration="${BUILD_TYPE}" &&
+        xcodebuild -target RUN_TESTS -configuration="${BUILD_TYPE}"
     fi
 
 after_success:
