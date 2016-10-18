@@ -1,14 +1,8 @@
+cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
-set(BUILD_TYPE ${CMAKE_BUILD_TYPE})
+include(ImportGTest)
 
-set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build googletest as release build")
-set(BUILD_GTEST ON CACHE BOOL "Build googletest")
-set(BUILD_GMOCK OFF CACHE BOOL "Build googlemock")
-add_subdirectory(${CMAKE_SOURCE_DIR}/Dependencies/googletest googletest)
-set(CMAKE_BUILD_TYPE ${BUILD_TYPE})
-
-add_executable(TestBSTLoader testBSTLoader.cpp)
-target_link_libraries(TestBSTLoader PRIVATE ImageStack gtest_main)
-
-add_test(TestBSTLoader TestBSTLoader)
+add_executable(TestMultiIndex testMultiIndex.cpp)
+target_link_libraries(TestMultiIndex PRIVATE ImageStack GTest)
+add_test(TestMultiIndex TestMultiIndex)
 
