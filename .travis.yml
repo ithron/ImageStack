@@ -151,9 +151,8 @@ script:
       make all && make test
     elif [ "$TRAVIS_OS_NAME" = "osx" ]; then
       set -o pipefail &&
-        xcodebuild -list &&
-        xcodebuild build -configuration="${BUILD_TYPE}" &&
-          xcodebuild -scheme RUN_TESTS -configuration="${BUILD_TYPE}"
+        xcodebuild build -target ALL_BUILD -configuration="${BUILD_TYPE}" &&
+        xcodebuild -target RUN_TESTS -configuration="${BUILD_TYPE}"
     fi
 
 after_success:
