@@ -9,17 +9,29 @@ set(BUILD_GTEST ON CACHE STRING "Build gtest")
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/Dependencies/googletest googletest EXCLUDE_FROM_ALL)
+add_subdirectory(${DEPENDENCIES_DIR}/googletest googletest)
 
 add_library(GTest INTERFACE IMPORTED)
-  set_property(TARGET GTest PROPERTY INTERFACE_INCLUDE_DIRECTORIES
-  ${DEPENDENCIES_DIR}/googletest/googletest/include
-)
+
 set_property(TARGET GTest PROPERTY INTERFACE_LINK_LIBRARIES
   gtest
   gtest_main
   Threads::Threads
 )
+
+if(XCODE)
+  set_property(TARGET GTest PROPERTY INTERFACE_COMPILE_OPTIONS
+    -isystem ${DEPENDENCIES_DIR}/googletest/googletest/include
+  )
+else()
+  set_property(TARGET GTest PROPERTY INTERFACE_INCLUDE_DIRECTORIES
+    ${DEPENDENCIES_DIR}/googletest/googletest/include
+  )
+  set_property(TARGET GTest PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES
+    ${DEPENDENCIES_DIR}/googletest/googletest/include
+  )
+endif()
+
 
 set(CMAKE_BUILD_TYPE ${BUILD_TYPE})
 

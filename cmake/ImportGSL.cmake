@@ -6,9 +6,7 @@ option(GSL_THROW_ON_CONTRACT_VALIDATION "Sould GSL throw on contract validation?
 
 if (XCODE)
   set_property(TARGET GSL PROPERTY INTERFACE_COMPILE_OPTIONS
-    -isystem
-      $<BUILD_INTERFACE:${DEPENDENCIES_DIR}/GSL/gsl>
-      $<INSTALL_INTERFACE:include/gsl>
+    -isystem$<BUILD_INTERFACE:${DEPENDENCIES_DIR}/GSL/gsl>$<INSTALL_INTERFACE:include/gsl>
   )
 else()
   set_property(TARGET GSL PROPERTY INTERFACE_INCLUDE_DIRECTORIES
