@@ -1,6 +1,6 @@
-branches:
-  except:
-    - gh-pages
+# branches:
+#   except:
+#     - gh-pages
 
 language: c++
 
