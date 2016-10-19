@@ -72,17 +72,17 @@ template <class I> constexpr std::size_t dims(I const &) noexcept {
 
 /// Tests if @c T is a model of \ref MultiIndexConcept.
 template <class T, typename = void>
-struct isModelOfMultiIndex : public std::false_type {};
+struct IsModelOfMultiIndex : public std::false_type {};
 
 template <class T>
-struct isModelOfMultiIndex<
+struct IsModelOfMultiIndex<
     T, std::enable_if_t<std::is_convertible<decltype(std::declval<T>()[0]),
                                             std::size_t>::value &&
                         (dims_v<T>> 0)>> : public std::true_type {};
 
-/// Alias for isModelOfMultiIndex<T>::value
+/// Alias for IsModelOfMultiIndex<T>::value
 template <class T>
-constexpr bool isModelOfMultiIndex_v = isModelOfMultiIndex<T>::value;
+constexpr bool isModelOfMultiIndex_v = IsModelOfMultiIndex<T>::value;
 
 /// @}
 
