@@ -6,7 +6,6 @@ set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build gtest as release build")
 set(BUILD_GMOCK OFF CACHE STRING "Don't build gmock")
 set(BUILD_GTEST ON CACHE STRING "Build gtest")
 
-set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 add_subdirectory(${DEPENDENCIES_DIR}/googletest googletest)
