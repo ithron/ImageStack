@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
-project(ImageStack VERSION 0.1.0 LANGUAGES CXX)
+project(ImageStack VERSION 0.1.0 LANGUAGES C CXX)
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
