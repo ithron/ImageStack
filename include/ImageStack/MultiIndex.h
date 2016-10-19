@@ -102,9 +102,10 @@ constexpr bool isModelOfMultiIndex_v = IsModelOfMultiIndex<T>::value;
 /// @tparam Order order of dimensions
 /// @param s tuple containing the size of each dimension
 /// @return linear representation of the multi index i
-template <class I, class S, std::size_t... Order,
-          typename = std::enable_if_t<isModelOfMultiIndex_v<I> &&
-                                      isModelOfMultiIndex_v<S>>>
+template <
+    class I, class S, std::size_t... Order,
+    typename = std::enable_if_t<isModelOfMultiIndex_v<I> &&
+                                (isModelOfMultiIndex_v<S> || (dims_v<I> == 1))>>
 constexpr std::size_t
 toLinearReorder(I const &i, S const &s,
                 std::index_sequence<Order...> =
@@ -134,9 +135,9 @@ toLinearReorder(I const &i, S const &s,
 /// @param i multi index to convert
 /// @param s tuple containing the size of each dimension
 /// @return linear representation of the multi index i
-template <class I, class S,
-          typename = std::enable_if_t<isModelOfMultiIndex_v<I> &&
-                                      isModelOfMultiIndex_v<S>>>
+template <class I, class S, typename = std::enable_if_t<
+                                isModelOfMultiIndex_v<I> &&
+                                (isModelOfMultiIndex_v<S> | (dims_v<I> == 1))>>
 constexpr std::size_t
 toLinear(I const &i, S const &s) noexcept(noexcept(i[0]) && noexcept(s[0])) {
   return toLinearReorder(i, s, std::make_index_sequence<dims_v<I>>());
@@ -160,7 +161,7 @@ constexpr std::size_t toLinear(std::size_t i, S const &) noexcept {
 template <class I, typename = std::enable_if_t<isModelOfMultiIndex_v<I>>>
 constexpr auto indexSum(I const &i) noexcept(noexcept(i[0])) {
   auto sum = i[0];
-  for (int j = 1; j < dims_v<I>; ++j) sum += i[j];
+  for (std::size_t j = 1; j < dims_v<I>; ++j) sum += i[j];
   return sum;
 }
 
@@ -171,7 +172,7 @@ constexpr auto indexSum(I const &i) noexcept(noexcept(i[0])) {
 template <class I, typename = std::enable_if_t<isModelOfMultiIndex_v<I>>>
 constexpr auto indexProduct(I const &i) noexcept(noexcept(i[0])) {
   auto prod = i[0];
-  for (int j = 1; j < dims_v<I>; ++j) prod *= i[j];
+  for (std::size_t j = 1; j < dims_v<I>; ++j) prod *= i[j];
   return prod;
 }
 
