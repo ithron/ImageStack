@@ -64,3 +64,17 @@ TEST(MultiIndex, toLinearReorder) {
   ASSERT_EQ(217, toLinearReorder(i4, s, order4));
 }
 
+TEST(MultiIndex, subindex) {
+  AI1 constexpr i1{{3}};
+  AI4 constexpr i4{{3, 5, 8, 11}};
+
+  static_assert(dims(subindex<0>(i1)) == 0,
+                "A 0 dimensional index should be empty");
+  ASSERT_EQ(0, dims(subindex<0>(i1)));
+
+  ASSERT_EQ(3, subindex<1>(i1)[0]);
+
+  ASSERT_EQ(2, dims(subindex<2, 1, 3>(i4)));
+  ASSERT_EQ(5, (subindex<2, 1, 3>(i4)[0]));
+  ASSERT_EQ(11, (subindex<2, 1, 3>(i4)[1]));
+}

@@ -176,6 +176,35 @@ constexpr auto indexProduct(I const &i) noexcept(noexcept(i[0])) {
   return prod;
 }
 
+namespace detail {
+
+template <class I, std::size_t... Dims>
+constexpr auto
+subindexHelper(I const &i,
+               std::index_sequence<Dims...>) noexcept(noexcept(i[0])) {
+  auto constexpr N = sizeof...(Dims);
+  using Index = std::decay_t<decltype(i[0])>;
+  return std::array<Index, N>{{i[Dims]...}};
+}
+
+} // namespace detail
+
+/// @brief Returns a subset of a multi index
+/// @tparam N size of the subset
+/// @tparam Dims list of dimensions to include in the subset, if none are
+/// specified, the first N dimensions are choosen
+/// @tparam I model ofer \ref MultiIndexConcept
+/// @param i multi index
+/// @return a multi index of dimension @c N, containing the selected dimensions
+template <std::size_t N, std::size_t... Dims, class I>
+constexpr auto subindex(I const &i) noexcept(noexcept(i[0])) {
+  auto constexpr M = sizeof...(Dims);
+  static_assert(N == M || M == 0, "Number of selected dimensions must match N");
+  return detail::subindexHelper(
+      i, std::conditional_t<M == 0, decltype(std::make_index_sequence<N>()),
+                            std::index_sequence<Dims...>>{});
+}
+
 /// @}
 
 } // namespace ImageStack
