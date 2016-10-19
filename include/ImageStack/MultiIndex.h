@@ -11,9 +11,9 @@
 /// @par Valid Expressions
 /// - <b>i[j]</b> returns the index of dimension @c j and must be
 ///   trivially convertable to @c std::size_t
-/// - <b>dims_v<I> > 0</b>
+/// - <b>dims_v\<I\> > 0</b>
 ///
-/// Models of \ref MultiIndexConcept:
+/// Models of \ref MultiIndexConcept :
 /// - C style arrays
 /// - @c std::array
 /// - @c gsl::span
@@ -90,7 +90,7 @@ constexpr bool isModelOfMultiIndex_v = IsModelOfMultiIndex<T>::value;
 /// @{
 /// @ingroup MultiIndexConcept
 
-/// Converts the given multi index to a linear index using the given order
+/// @brief Converts the given multi index to a linear index using the given order
 ///
 /// The order of the dimensions that are used for linear index computation can
 /// be specified by the template parameter @c Order. E.g. to compute a linear
