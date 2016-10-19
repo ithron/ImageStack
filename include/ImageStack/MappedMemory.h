@@ -110,13 +110,27 @@ private:
   std::array<Size, dims - 1> dims_;
 };
 
-template <class T> class MappedHostMemory : public MappedMemoryBase<T> {
+/// @brief Class represensing multi dimensional host memory
+///
+/// Instances of this class represent memory regions directly accessible by the
+/// CPU.
+/// @tparam T type of elements stored in the memory region
+/// @tparam dims number of dimensions of the memory region
+template <class T, Size dims = 1>
+class MappedHostMemory : public MappedMemoryBase<T, dims> {
   using Base = MappedMemoryBase<T>;
 
 public:
+  /// @brief Create a host memory mapping by specifying its start and size
+  /// @tparam S model of \ref MultiIndexConcept
+  /// @param startPtr pointer to the start of the region, must not be null_ptr
+  /// @param size size of each dimension of the memory region
   template <class S, typename = std::enable_if_t<isModelOfMultiIndex_v<S>>>
-  constexpr MappedHostMemory(gsl::not_null<T *> startPtr,
-                             S const &size) noexcept
+  constexpr MappedHostMemory(
+      gsl::not_null<T *> startPtr,
+      S const &size) noexcept(noexcept(indexProduct(size)) &&
+                              noexcept(MappedMemoryBase(
+                                  std::declval < gsl::span<T>(), size)))
       : Base(gsl::as_span(startPtr, indexProduct(size)), size) {}
 };
 
