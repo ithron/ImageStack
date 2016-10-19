@@ -43,6 +43,9 @@ TEST(MultiIndex, toLinear) {
   ASSERT_EQ(297, toLinear(i4, s));
 
   ASSERT_EQ(23, toLinear(23, s));
+
+  // Test case from issue #1 (https://github.com/ithron/ImageStack/issues/1)
+  ASSERT_EQ(12, toLinear(AI3{{0, 0, 1}}, AI3{{3, 4, 5}}));
 }
 
 TEST(MultiIndex, toLinearReorder) {
