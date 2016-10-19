@@ -5,6 +5,10 @@
 
 namespace ImageStack {
 
+/// @brief Base class for multi dimensional mapped memory
+///
+/// @tparam T type of stored elements
+/// @tparam dims number of dimensiosn of the mapping, must be > 0
 template <class T, Size dims = 1> class MappedMemoryBase {
   using Memory = gsl::span<T>;
 
@@ -19,6 +23,10 @@ public:
   using difference_type = typename Memory::difference_type;
   using size_type = typename Memory::size_type;
 
+  /// @brief Const access the mapped memory using a multi index
+  /// @tparam Idx model of \ref MultiIndexConcept
+  /// @param i multi index
+  /// @return const reference to element at @c i
   template <class Idx,
             typename = std::enable_if_t<isModelOfMultiIndex_v<Idx> ||
                                         std::is_convertible<Idx, Size>::value>>
@@ -26,6 +34,10 @@ public:
     return memory_[toLinear(i, dims_)];
   }
 
+  /// @brief Access the mapped memory using a multi index
+  /// @tparam Idx model of \ref MultiIndexConcept
+  /// @param i multi index
+  /// @return reference to element at @c i
   template <class Idx,
             typename = std::enable_if_t<isModelOfMultiIndex_v<Idx> ||
                                         std::is_convertible<Idx, Size>::value>>
@@ -33,8 +45,18 @@ public:
     return memory_[toLinear(i, dims_)];
   }
 
+  /// @brief Returns the linear size of the mapped memory region
+  ///
+  /// The linear size is the product of the sizes of all dimensions
   constexpr Size linearSize() const noexcept { return memory_.size(); }
 
+  /// @brief Returns the multi dimensional size of the mapped memory region
+  ///
+  /// @return object containing the size of each dimensions. The returned object
+  /// in an instance of a model of \ref MultiIndexConcept.
+  ///
+  /// @note This function returns a newly created @c std::array object, so
+  ///   better store the result if it is used frequently.
   constexpr auto size() const noexcept {
     auto const prod = indexProduct(dims_);
     Expects(linearSize() % prod == 0);
@@ -46,15 +68,30 @@ public:
     return res;
   }
 
+  /// @brief Returns a const_iterator pointing to the beginning of the mapped
+  /// memory
   constexpr const_iterator begin() const noexcept { return memory_.begin(); }
+  /// @brief Returns a const_iterator pointing to the beginning of the mapped
+  /// memory
   constexpr const_iterator cbegin() const noexcept { return memory_.cbegin(); }
+  /// @brief Returns a const_iterator pointing to one element after the end of
+  /// the memory region
   constexpr const_iterator end() const noexcept { return memory_.end(); }
+  /// @brief Returns a const_iterator pointing to one element after the end of
+  /// the memory region
   constexpr const_iterator cend() const noexcept { return memory_.cend(); }
 
+  /// @brief Returns a iterator pointing to the beginning of the mapped memory
   iterator begin() noexcept { return memory_.begin(); }
+  /// @brief Returns a iterator pointing to one element after the end of the
+  /// memory region
   iterator end() noexcept { return memory_.end(); }
 
 protected:
+  /// @brief Protected constructor
+  /// @tparam S model of \ref MultiIndexConcept
+  /// @param memory @c gsl::span<T> pointing to the mapped memory
+  /// @param size size of the first <b>dims - 1</b> dimensions
   template <class S, typename = std::enable_if_t<isModelOfMultiIndex_v<S>>>
   constexpr MappedMemoryBase(gsl::span<T> memory,
                              S const &size) noexcept(noexcept(size[0]))
@@ -67,7 +104,9 @@ private:
       std::index_sequence<I...>) noexcept(noexcept(size[0]))
       : MappedMemoryBase(memory, size, std::make_index_sequence<dims - 1>()) {}
 
+  /// @brief Store the mapped region
   gsl::span<T> memory_;
+  /// @brief Store sizes of the the first <b>dims - 1</b> dimensions
   std::array<Size, dims - 1> dims_;
 };
 
