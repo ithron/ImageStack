@@ -39,9 +39,8 @@ TEST(MultiIndex, toLinear) {
 
   ASSERT_EQ(3, toLinear(i1, s));
   ASSERT_EQ(58, toLinear(i2, s));
-  ASSERT_EQ(154, toLinear(i3, s));
-  ASSERT_EQ(297, toLinear(i4, s));
-
+  ASSERT_EQ(1114, toLinear(i3, s));
+  ASSERT_EQ(19990, toLinear(i4, s));
   ASSERT_EQ(23, toLinear(23, s));
 
   // Test case from issue #1 (https://github.com/ithron/ImageStack/issues/1)
@@ -63,8 +62,8 @@ TEST(MultiIndex, toLinearReorder) {
 
   ASSERT_EQ(3, toLinearReorder(i1, s, order1));
   ASSERT_EQ(41, toLinearReorder(i2, s, order2));
-  ASSERT_EQ(102, toLinearReorder(i3, s, order3));
-  ASSERT_EQ(217, toLinearReorder(i4, s, order4));
+  ASSERT_EQ(762, toLinearReorder(i3, s, order3));
+  ASSERT_EQ(10679, toLinearReorder(i4, s, order4));
 }
 
 TEST(MultiIndex, subindex) {

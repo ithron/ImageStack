@@ -90,7 +90,8 @@ constexpr bool isModelOfMultiIndex_v = IsModelOfMultiIndex<T>::value;
 /// @{
 /// @ingroup MultiIndexConcept
 
-/// @brief Converts the given multi index to a linear index using the given order
+/// @brief Converts the given multi index to a linear index using the given
+/// order
 ///
 /// The order of the dimensions that are used for linear index computation can
 /// be specified by the template parameter @c Order. E.g. to compute a linear
@@ -121,10 +122,18 @@ toLinearReorder(I const &i, S const &s,
 
   std::array<size_t, sizeof...(Order)> constexpr order{{Order...}};
 
+  // The linear index to be computed. Initialized with the index of the first
+  // (possible reordered) dimension.
   size_t linIdx = static_cast<size_t>(i[order[0]]);
-  for (size_t d = 1; d < dims_v<I>; ++d)
-    linIdx +=
-        static_cast<size_t>(i[order[d]]) * static_cast<size_t>(s[order[d - 1]]);
+
+  // In the computation of the linear index, the product of all previous
+  // dimensions is required. This is stored here
+  size_t sizeOfPrevDims = static_cast<size_t>(s[order[0]]);
+
+  for (size_t d = 1; d < dims_v<I>; ++d) {
+    linIdx += static_cast<size_t>(i[order[d]]) * sizeOfPrevDims;
+    sizeOfPrevDims *= static_cast<size_t>(s[order[d]]);
+  }
 
   return linIdx;
 }
