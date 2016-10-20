@@ -6,3 +6,6 @@ add_executable(TestMultiIndex testMultiIndex.cpp)
 target_link_libraries(TestMultiIndex PRIVATE ImageStack GTest)
 add_test(TestMultiIndex TestMultiIndex)
 
+add_executable(TestMappedMemory testMappedMemory.cpp)
+target_link_libraries(TestMappedMemory PRIVATE ImageStack GTest)
+add_test(TestMappedMemory TestMappedMemory)
