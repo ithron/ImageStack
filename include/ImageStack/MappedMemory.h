@@ -34,7 +34,8 @@ public:
                                         std::is_convertible<Idx, Size>::value>>
   inline T const &operator[](Idx const &i) const {
     // Bounds checking is done in gsl::span
-    return memory_[toLinear(i, size_)];
+    return memory_[static_cast<typename Memory::index_type>(
+        toLinear(i, size_))];
   }
 
   /// @brief Access the mapped memory using a multi index
