@@ -138,7 +138,7 @@ toLinearReorder(I const &i, S const &s,
   return linIdx;
 }
 
-/// Converts the given multi index to a linear index
+/// @brief Converts the given multi index to a linear index
 /// @tparam I model of \ref MultiIndexConcept
 /// @tparam S model of \ref MultiIndexConcept
 /// @param i multi index to convert
@@ -152,7 +152,8 @@ toLinear(I const &i, S const &s) noexcept(noexcept(i[0]) && noexcept(s[0])) {
   return toLinearReorder(i, s, std::make_index_sequence<dims_v<I>>());
 }
 
-/// Converts the given multi index to a linear index, overload for 1d indices
+/// @brief Converts the given multi index to a linear index, overload for 1d
+/// indices
 ///
 /// This function is an overload of toLinear for linear indices
 /// @tparam S model of \ref MultiIndexConcept
@@ -163,7 +164,7 @@ constexpr std::size_t toLinear(std::size_t i, S const &) noexcept {
   return i;
 }
 
-/// Computed the sum of all indices of a multi index
+/// @brief Computed the sum of all indices of a multi index
 /// @tparam I model of \ref MultiIndexConcept
 /// @param i multi index
 /// @return sum of all indices in @c i
@@ -174,7 +175,7 @@ constexpr auto indexSum(I const &i) noexcept(noexcept(i[0])) {
   return sum;
 }
 
-/// Computed the product of all indices of a multi index
+/// @brief Computed the product of all indices of a multi index
 /// @tparam I model of \ref MultiIndexConcept
 /// @param i multi index
 /// @return sum of all indices in @c i
