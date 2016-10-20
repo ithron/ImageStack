@@ -98,6 +98,7 @@ constexpr bool isModelOfMultiIndex_v = IsModelOfMultiIndex<T>::value;
 /// index of a 2d multi index (row, column) in column-major order, the oder
 /// would be 0, 1. For row-major order, the order would be 1, 0.
 ///
+/// Test cases are in \ref testMultiIndex.cpp
 /// @tparam I model of \ref MultiIndexConcept
 /// @tparam S model of \ref MultiIndexConcept
 /// @tparam Order order of dimensions
@@ -128,7 +129,7 @@ toLinearReorder(I const &i, S const &s,
 
   // In the computation of the linear index, the product of all previous
   // dimensions is required. This is stored here
-  size_t sizeOfPrevDims = static_cast<size_t>(s[order[0]]);
+  size_t sizeOfPrevDims = dims_v<I>> 1 ? static_cast<size_t>(s[order[0]]) : 0;
 
   for (size_t d = 1; d < dims_v<I>; ++d) {
     linIdx += static_cast<size_t>(i[order[d]]) * sizeOfPrevDims;
@@ -139,6 +140,7 @@ toLinearReorder(I const &i, S const &s,
 }
 
 /// @brief Converts the given multi index to a linear index
+/// Test cases are in \ref testMultiIndex.cpp
 /// @tparam I model of \ref MultiIndexConcept
 /// @tparam S model of \ref MultiIndexConcept
 /// @param i multi index to convert
@@ -156,6 +158,8 @@ toLinear(I const &i, S const &s) noexcept(noexcept(i[0]) && noexcept(s[0])) {
 /// indices
 ///
 /// This function is an overload of toLinear for linear indices
+///
+/// Test cases are in \ref testMultiIndex.cpp
 /// @tparam S model of \ref MultiIndexConcept
 /// @param i index to convert
 /// @return linear representation of the multi index i
@@ -165,6 +169,7 @@ constexpr std::size_t toLinear(std::size_t i, S const &) noexcept {
 }
 
 /// @brief Computed the sum of all indices of a multi index
+/// Test cases are in \ref testMultiIndex.cpp
 /// @tparam I model of \ref MultiIndexConcept
 /// @param i multi index
 /// @return sum of all indices in @c i
@@ -176,6 +181,7 @@ constexpr auto indexSum(I const &i) noexcept(noexcept(i[0])) {
 }
 
 /// @brief Computed the product of all indices of a multi index
+/// Test cases are in \ref testMultiIndex.cpp
 /// @tparam I model of \ref MultiIndexConcept
 /// @param i multi index
 /// @return sum of all indices in @c i
@@ -200,6 +206,7 @@ subindexHelper(I const &i,
 } // namespace detail
 
 /// @brief Returns a subset of a multi index
+/// Test cases are in \ref testMultiIndex.cpp
 /// @tparam N size of the subset
 /// @tparam Dims list of dimensions to include in the subset, if none are
 /// specified, the first N dimensions are choosen

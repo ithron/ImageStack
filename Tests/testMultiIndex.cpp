@@ -1,3 +1,6 @@
+/// @file testMultiIndex.cpp
+/// @brief File contains unit tests for multi index related functions
+
 #include <ImageStack/MultiIndex.h>
 
 #include <Eigen/Core>
@@ -29,6 +32,7 @@ static_assert(dims_v<MI2> == 2, "Error in dims_v implementation");
 static_assert(dims_v<MI3> == 3, "Error in dims_v implementation");
 static_assert(dims_v<MI4> == 4, "Error in dims_v implementation");
 
+/// @brief Check if toLinear produces the right result for 1,2,3,4 dimensions
 TEST(MultiIndex, toLinear) {
   AI1 constexpr i1{{3}};
   AI2 constexpr i2{{3, 5}};
@@ -47,6 +51,7 @@ TEST(MultiIndex, toLinear) {
   ASSERT_EQ(12, toLinear(AI3{{0, 0, 1}}, AI3{{3, 4, 5}}));
 }
 
+/// @brief Check if toLinear produces the right result for 1,2,3,4 dimensions
 TEST(MultiIndex, toLinearReorder) {
   AI1 constexpr i1{{3}};
   AI2 constexpr i2{{3, 5}};
@@ -66,6 +71,7 @@ TEST(MultiIndex, toLinearReorder) {
   ASSERT_EQ(10679, toLinearReorder(i4, s, order4));
 }
 
+/// @brief Check if subindex return the right result
 TEST(MultiIndex, subindex) {
   AI1 constexpr i1{{3}};
   AI4 constexpr i4{{3, 5, 8, 11}};
@@ -80,3 +86,28 @@ TEST(MultiIndex, subindex) {
   ASSERT_EQ(5, (subindex<2, 1, 3>(i4)[0]));
   ASSERT_EQ(11, (subindex<2, 1, 3>(i4)[1]));
 }
+
+/// @brief Test indexSum for 1,2,3 dimensions
+TEST(MultiIndex, indexSum) {
+  AI1 constexpr i1{{23}};
+  AI2 constexpr i2{{5, 23}};
+  AI3 constexpr i3{{5, 23, 42}};
+
+  ASSERT_EQ(23, indexSum(i1));
+  ASSERT_EQ(28, indexSum(i2));
+  ASSERT_EQ(70, indexSum(i3));
+}
+
+/// @brief Test indexProduct for 1,2,3 dimensions
+TEST(MultiIndex, indexProduct) {
+  AI1 constexpr i1{{23}};
+  AI2 constexpr i2{{5, 23}};
+  AI3 constexpr i3{{5, 23, 42}};
+  AI3 constexpr i32{{5, 0, 42}};
+
+  ASSERT_EQ(23, indexProduct(i1));
+  ASSERT_EQ(115, indexProduct(i2));
+  ASSERT_EQ(4830, indexProduct(i3));
+  ASSERT_EQ(0, indexProduct(i32));
+}
+
