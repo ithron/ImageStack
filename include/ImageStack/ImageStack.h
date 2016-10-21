@@ -5,7 +5,7 @@
 #include <set>
 #include <vector>
 
-namespace SITools {
+namespace ImageStack {
 
 struct LoaderTag {};
 
@@ -38,87 +38,13 @@ public:
                 std::is_convertible<ST, StorageType_>::value>::type>
   ImageStack(ImageStack<ST, Decs...> const &stack) {
     size_ = stack.size_;
-    data_.resize(MIP::MU::product(size_));
+    data_.resize(size.prod());
     std::transform(stack.data_.cbegin(), stack.data_.cend(), data_.begin(),
                    [](S v) { return static_cast<StorageType>(v); });
   }
 
-  /// Returns the slice with the given index
-  inline ImageType Slice(unsigned int sliceIdx) {
-    auto const sliceSize = size_[0] * size_[1];
-    // ImageType sliceImg(size_[0], size_[1], 1, false);
-    ImageType sliceImg;
-    sliceImg.SetColorModel(BIAS::ImageBase::EColorModel::CM_Grey);
-    sliceImg.InitWithForeignData(size_[0], size_[1], 1,
-                                 &data_.data()[sliceIdx * sliceSize], true,
-                                 false);
-    // std::copy(sliceBegin, sliceEnd, sliceImg.GetImageData());
-    return sliceImg;
-  }
-
-  /// Returns the slice with the given index
-  inline ImageType Slice(unsigned int sliceIdx) const {
-    auto const sliceSize = size_[0] * size_[1];
-    // ImageType sliceImg(size_[0], size_[1], 1, false);
-    ImageType sliceImg;
-    sliceImg.SetColorModel(BIAS::ImageBase::EColorModel::CM_Grey);
-    sliceImg.InitWithForeignData(
-        size_[0], size_[1], 1,
-        const_cast<void *>(reinterpret_cast<void const *>(
-            &data_.data()[sliceIdx * sliceSize])),
-        true, false);
-    // std::copy(sliceBegin, sliceEnd, sliceImg.GetImageData());
-    return sliceImg;
-  }
-
-  /// Returns the interpolated slice
-  inline ImageType Slice(float sliceIdx) {
-    auto const sliceSize = size_[0] * size_[1];
-
-    sliceIdx = Cap(float(0), sliceIdx, float(SliceCount() - 1));
-
-    unsigned int const i0 = static_cast<unsigned int>(sliceIdx);
-    float const alpha = sliceIdx - static_cast<float>(i0);
-
-    if (std::abs(alpha) < 1e-3f) { return Slice(i0); }
-
-    ImageType sliceImg(size_[0], size_[1], 1, true);
-    for (unsigned int i = 0; i < sliceSize; ++i) {
-      auto const v0 = data_.data()[i0 * sliceSize + i];
-      auto const v1 = data_.data()[(i0 + 1) * sliceSize + i];
-      auto const vDest = (1.0f - alpha) * v0 + alpha * v1;
-
-      sliceImg.GetImageData()[i] = static_cast<StorageType>(vDest);
-    }
-
-    return sliceImg;
-  }
-
-  /// Returns the ImageStack as a multi-channel BIAS image where each channel
-  /// represets a slice.
-  /// \param copy If set to true (default) the image data is copied to the
-  /// returned image. If set to false the image data is referenced instread.
-  /// \note Be careful when you set copy to false. Since the data is shared
-  /// between the original and the returned image, the original image must not
-  /// be
-  /// released as long as the returned image is used.
-  inline ImageType ToImage(bool copy = false) {
-    if (copy) {
-      ImageType img(size_[0], size_[1], size_[2], false);
-      img.SetColorModel(BIAS::ImageBase::EColorModel::CM_Grey);
-      std::copy(data_.cbegin(), data_.cend(), img.GetImageData());
-      return img;
-    } else {
-      ImageType img;
-      img.SetColorModel(BIAS::ImageBase::EColorModel::CM_Grey);
-      img.InitWithForeignData(size_[0], size_[1], size_[2], data_.data(), false,
-                              false);
-      return img;
-    }
-  }
-
   /// Returns the number of slices
-  inline unsigned int SliceCount() const { return size_[2]; }
+  inline unsigned int SliceCount() const noexcept { return size_[2]; }
 
   /// Returns the value of the pixel at the given coordinate, where z specifies
   /// the slice index and (x, y) are the in-plane pixel coordinates.
@@ -254,4 +180,4 @@ template <class D, class _ST, class... _D>
 struct HasDecorator<ImageStack<_ST, _D...>, D>
     : public MIP::MU::ContainsType<D, _D...> {};
 
-} // namespace SITools
+} // namespace ImageStack
