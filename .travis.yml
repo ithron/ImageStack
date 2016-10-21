@@ -1,6 +1,7 @@
-# branches:
-#   except:
-#     - gh-pages
+branches:
+  except:
+    - gh-pages
+    - work-in-progress
 
 language: c++
 
