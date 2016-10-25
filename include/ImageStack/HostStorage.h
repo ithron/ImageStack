@@ -13,6 +13,7 @@ namespace ImageStack {
 /// @tparam T type of stored elements
 template <class T> class HostStorage {
 public:
+  using ValueType = T;
   using Pointer = T *;
 
   /// @brief Create host storage object and allocate memory
@@ -22,7 +23,7 @@ public:
   /// used
   template <class Size, typename = std::enable_if_t<
                             isModelOfMultiIndex_v<Size> && (dims_v<Size> >= 3)>>
-  inline explicit HostStorage(Size size) : size_(size) {
+  inline explicit HostStorage(Size size) : size_(size[0], size[1], size[2]) {
     storage_.reserve(indexProduct(size));
   }
 
@@ -36,7 +37,7 @@ public:
   template <class Size, typename = std::enable_if_t<
                             isModelOfMultiIndex_v<Size> && (dims_v<Size> >= 3)>>
   inline HostStorage(Size size, T const &init)
-      : size_(size), storage_(indexProduct(size), init) {}
+      : size_(size[0], size[1], size[2]), storage_(indexProduct(size), init) {}
 
   /// @brief Create host storage and initialize allocated memory with given
   /// content
@@ -62,7 +63,7 @@ public:
           // Check if Size is a model of MultiIndexConcept with dims >= 3
           isModelOfMultiIndex_v<Size> && (dims_v<Size> >= 3)>>
   inline explicit HostStorage(Size size, Container const &init)
-      : size_(size), storage_(init.cbegin(), init.cend()) {
+      : size_(size[0], size[1], size[2]), storage_(init.cbegin(), init.cend()) {
     Expects(indexProduct(size) == init.size());
   }
 
