@@ -2,6 +2,7 @@
 
 #include <Eigen/Core>
 
+#include <array>
 #include <type_traits>
 
 namespace ImageStack {
