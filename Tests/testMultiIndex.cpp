@@ -29,6 +29,9 @@ static_assert(dims_v<AI4> == 4, "Error in dims_v implementation");
 
 static_assert(dims_v<MI1> == 1, "Error in dims_v implementation");
 static_assert(dims_v<MI2> == 2, "Error in dims_v implementation");
+// The two tests below fail on clang-3.5, but the two test above succeed.
+// Since no workaround could be found, 3.6 is the minimal supported clang
+// version
 static_assert(dims_v<MI3> == 3, "Error in dims_v implementation");
 static_assert(dims_v<MI4> == 4, "Error in dims_v implementation");
 
