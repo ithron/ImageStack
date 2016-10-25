@@ -43,11 +43,10 @@ namespace ImageStack {
 template <class T, typename = void>
 struct Dims : public std::integral_constant<std::size_t, 0> {};
 
-// Overload for every type with an std::tuple_size specialization
-template <class T>
-struct Dims<T, std::enable_if_t<std::is_convertible<
-                   decltype(std::tuple_size<T>::value), std::size_t>::value>>
-    : public std::tuple_size<T> {};
+// Overload for std::array types
+template <class T, std::size_t N>
+struct Dims<std::array<T, N>> : public std::integral_constant<std::size_t, N> {
+};
 
 // Dims<> overload for C arrays
 template <class T, std::size_t N>

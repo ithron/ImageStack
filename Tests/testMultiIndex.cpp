@@ -32,6 +32,11 @@ static_assert(dims_v<MI2> == 2, "Error in dims_v implementation");
 static_assert(dims_v<MI3> == 3, "Error in dims_v implementation");
 static_assert(dims_v<MI4> == 4, "Error in dims_v implementation");
 
+static_assert(isModelOfMultiIndex_v<decltype(MI1::Zero())>,
+              "Eigen constant Zero not detected as a model of multi index");
+static_assert(dims_v<decltype(MI1::Zero())> == 1,
+              "dims_v<> not working correctly for Eigen Zero type");
+
 /// @brief Check if toLinear produces the right result for 1,2,3,4 dimensions
 TEST(MultiIndex, toLinear) {
   AI1 constexpr i1{{3}};
@@ -110,4 +115,3 @@ TEST(MultiIndex, indexProduct) {
   ASSERT_EQ(4830, indexProduct(i3));
   ASSERT_EQ(0, indexProduct(i32));
 }
-
