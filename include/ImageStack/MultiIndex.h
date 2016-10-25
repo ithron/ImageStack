@@ -20,8 +20,7 @@
 /// - Eigen fixes size row or column vectors
 #pragma once
 
-#include <ImageStack/Debug.h>
-#include <ImageStack/TypeTraits.h>
+#include "TypeTraits.h"
 
 #include <Eigen/Core>
 
