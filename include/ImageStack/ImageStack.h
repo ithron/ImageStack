@@ -1,183 +1,126 @@
 #pragma once
 
-#include <Eigen/Core>
+#include "HostStorage.h"
+#include "MultiIndex.h"
+#include "Types.h"
 
 #include <set>
 #include <vector>
 
 namespace ImageStack {
 
-struct LoaderTag {};
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpadded"
-template <class StorageType_, class... Decorators>
+/// @brief class representing a 3D image that can be represented as a stack of
+/// 2D images
+///
+/// Test cases can be found in \ref testImageStack.cpp
+/// @tparam T Pixel value type
+/// @tparam Storage_ Storage type, must be a template class, taking T as its
+/// parameter
+/// @tparam Decorators List of implemented decorators
+template <class T, template <class> class Storage_ = HostStorage,
+          class... Decorators>
 class ImageStack : public Decorators... {
-  using Self = ImageStack<StorageType_, Decorators...>;
+  using Self = ImageStack<T, Storage_, Decorators...>;
 
 public:
-  using StorageType = StorageType_;
-  using Size3 = Eigen::Matrix<std::size_t, 3, 1>;
+  using Storage = Storage_<T>;
+  using StorageType = T;
 
-  /// Create an empty image stack
-  ImageStack() noexcept : size_(Size3::Zero()) {}
+  /// @brief Create an empty image stack
+  inline ImageStack() noexcept : storage_(Size3::Zero()) {}
 
-  /// Loads an image stack using the given loader
+  /// @brief Loads an image stack using the given loader
   template <class Loader>
-  inline explicit ImageStack(Loader &&loader, LoaderTag)
-      : Decorators(std::forward<Loader>(loader), LoaderTag())... {
-    size_ = loader.Dimension();
-    data_.resize(size_.prod());
+  explicit ImageStack(Loader const &loader)
+      : Decorators(std::forward<Loader>(loader))..., storage_(loader.size()) {
 
-    loader.template ReadData<StorageType>(data_.data());
+    auto const size = loader.size();
+    Expects(indexProduct(size) > 0);
+
+    Storage store(size);
+    loader.template ReadData<StorageType>(store.map().begin());
+
+    storage_ = std::move(store);
   }
 
-  /// Cast constructor
-  template <class ST, class... Decs,
-            typename = typename std::enable_if<
-                std::is_convertible<ST, StorageType_>::value>::type>
-  ImageStack(ImageStack<ST, Decs...> const &stack) {
-    size_ = stack.size_;
-    data_.resize(size.prod());
-    std::transform(stack.data_.cbegin(), stack.data_.cend(), data_.begin(),
-                   [](S v) { return static_cast<StorageType>(v); });
+  /// @brief Cast constructor
+  template <class ST, template <class> class S, class... Decs,
+            typename = typename std::enable_if_t<
+                std::is_convertible<ST, StorageType>::value>>
+  ImageStack(ImageStack<ST, S, Decs...> const &stack) {
+
+    Storage store(stack.size());
+    auto const srcMap = stack.storage_.map();
+    auto destMap = store.map();
+    std::transform(srcMap.begin(), srcMap.end(), destMap.begin(),
+                   [](auto v) { return static_cast<StorageType>(v); });
+
+    storage_ = std::move(store);
   }
 
-  /// Returns the number of slices
-  inline unsigned int SliceCount() const noexcept { return size_[2]; }
+  /// @brief Returns the number of slices
+  inline Size numSlices() const noexcept { return storage_.size()[2]; }
 
-  /// Returns the value of the pixel at the given coordinate, where z specifies
-  /// the slice index and (x, y) are the in-plane pixel coordinates.
-  inline StorageType operator()(unsigned int x, unsigned int y,
-                                unsigned int z) const {
-    return Slice(z).PixelValue(x, y, 0);
-  }
+  /// @brief Returns the size of the image stack
+  inline auto size() const noexcept { return storage_.size(); }
 
-  /// Returns the value of the pixel at the given coordinate, where z specifies
-  /// the slice index and (x, y) are the in-plane pixel coordinates.
-  inline StorageType &operator()(unsigned int x, unsigned int y,
-                                 unsigned int z) {
-    return Slice(z).PixelValue(x, y, 0);
-  }
-
-  /// Returns the value of the pixel at the given coordinate, where z specifies
-  /// the slice index and (x, y) are the in-plane pixel coordinates.
-  template <class T>
-  inline StorageType operator()(BIAS::Vector3<T> const &pos) const {
-    auto const val = Slice(static_cast<unsigned int>(pos[2]))
-                         .PixelValue(static_cast<unsigned int>(pos[0]),
-                                     static_cast<unsigned int>(pos[1]), 0);
-    return val;
-  }
-
-  /// Sample the image stack using the given sampler
-  /// \tparam Sampler A model of the concept Sampler.
-  ///
-  /// A model of the Sampler concept must supply a operator() accepting an
-  /// argument of ImageStack const &. The result must be convertible to
-  /// StorageType
-  template <class Sampler, class T>
-  inline typename Sampler::output_type
-  operator()(Sampler const &sampler, BIAS::Vector3<T> const &pos) const {
-    return sampler(*this, pos);
-  }
-
-  /// Returns the size of the image stack
-  inline BIAS::Vector3<unsigned int> Size() const { return size_; }
-
-  /// Converts alls non-zero entries to one
-  inline ImageStack &Binarize() {
-    std::transform(
-        data_.cbegin(), data_.cend(), data_.begin(), [](StorageType v) {
-          return static_cast<StorageType>(v > static_cast<StorageType>(0));
-        });
-    return *this;
-  }
-
-  /// Applies the given transformation function to all entries
-  template <class Func> inline ImageStack &Transform(Func transformation) {
-    std::transform(data_.cbegin(), data_.cend(), data_.begin(), transformation);
-    return *this;
-  }
-
-  /// Returns a vector of unique values found inside the image stack
-  std::Dvector<StorageType> UniqueValues() const {
+  /// @brief Returns a container of unique values in ascending order found
+  /// inside the image stack.
+  /// @return container containing all unique values of the image in ascending
+  /// order
+  /// @note This method requires to map the underlying storage.
+  auto uniqueValues() const {
     std::set<StorageType> values;
-    for (auto const &v : data_) { values.insert(v); }
-    std::Dvector<StorageType> res(values.size());
-    std::copy(values.cbegin(), values.cend(), res.begin());
-    std::sort(res.begin(), res.end());
-    return res;
+
+    if (empty()) return values;
+
+    for (auto const &v : storage_.map()) values.insert(v);
+
+    Ensures(std::is_sorted(values.cbegin(), values.cend()));
+
+    return values;
   }
 
-  /// Returns true if the image is empty
-  inline bool Empty() const { return data_.empty(); }
+  /// @brief Returns true if the image is empty
+  inline bool empty() const noexcept { return storage_.empty(); }
 
-  /// Returns the minimum voxel value of the image
-  inline StorageType Min() const {
-    assert(!Empty() && "Empty image");
-    return *std::min_element(data_.cbegin(), data_.cend());
+  /// @brief Maps the underlying storage to host memory and returns a const
+  /// mapping object
+  /// @pre `empty() == false`
+  /// @return A const mapping object
+  inline auto map() const noexcept(noexcept(storage_.map())) {
+    return storage_.map();
   }
 
-  /// Returns a list of all voxel indices which values fall in the given closed
-  /// range
-  inline std::Dvector<BIAS::Vector3<unsigned int>>
-  Query(std::Dvector<BIAS::Vector2<StorageType>> ranges) const {
-    std::Dvector<BIAS::Vector3<unsigned int>> result;
-    result.reserve(data_.size());
-
-    auto const sliceSize = size_[0] * size_[1];
-
-    for (unsigned int i = 0; i < data_.size(); ++i) {
-      auto const &val = data_[i];
-      if (std::any_of(ranges.begin(), ranges.end(),
-                      [&val](BIAS::Vector2<StorageType> const &range) {
-                        return (range[0] <= val) && (val <= range[1]);
-                      })) {
-        auto const x = i % size_[0];
-        auto const y = (i % sliceSize) / size_[0];
-        auto const z = i / sliceSize;
-        result.emplace_back(x, y, z);
-      }
-    }
-
-    result.shrink_to_fit();
-    return result;
-  }
-
-  inline std::Dvector<BIAS::Vector3<unsigned int>>
-  Query(std::Dvector<StorageType> const &values) const {
-    std::Dvector<BIAS::Vector2<StorageType>> ranges(values.size());
-    MIP::MU::transform(values, ranges.begin(),
-                       [](StorageType val) -> BIAS::Vector2<StorageType> {
-                         return {val, val};
-                       });
-    return Query(ranges);
-  }
-
-  inline std::Dvector<BIAS::Vector3<unsigned int>> Query(StorageType lb,
-                                                         StorageType ub) const {
-    return Query({lb, ub});
-  }
-
-  /// Returns a list of all voxel indices which values equal the given one
-  inline std::Dvector<BIAS::Vector3<unsigned int>>
-  Query(StorageType value) const {
-    return Query(value, value);
+  /// @brief Maps the underlying storage to host memory and returns a
+  /// mapping object
+  /// @pre `empty() == false`
+  /// @return A mapping object
+  inline auto map() noexcept(noexcept(storage_.map())) {
+    return storage_.map();
   }
 
 private:
-  template <class ST, class... Decs> friend class ImageStack;
+  template <class, template <class> class, class... Decs>
+  friend class ImageStack;
 
-  Size3 size_;
-  std::vector<StorageType> data_;
+  Storage storage_;
 };
-#pragma clang diagnostic pop
 
+/// @{
+/// @ingroup TypeTraits
+
+/// @brief Type trait to check if a ImageStack implements a given decorator
 template <class T, class D> struct HasDecorator : public std::false_type {};
 
-template <class D, class _ST, class... _D>
-struct HasDecorator<ImageStack<_ST, _D...>, D>
-    : public MIP::MU::ContainsType<D, _D...> {};
+template <class D, class T, template <class> class S, class... _D>
+struct HasDecorator<ImageStack<T, S, _D...>, D>
+    : public ContainsType<D, _D...> {};
+
+/// @brief Alias for HasDecorator<>::type
+template <class T, class D>
+constexpr bool HasDecorator_t = HasDecorator<T, D>::type;
+
+/// @}
 
 } // namespace ImageStack
