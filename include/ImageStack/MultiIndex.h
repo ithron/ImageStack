@@ -180,6 +180,28 @@ constexpr auto indexSum(I const &i) noexcept(noexcept(i[0])) {
   return sum;
 }
 
+/// @brief Tests if two multi indices are equal
+/// @tparam I model of \ref MultiIndexConcept
+/// @tparam J model of \ref MultiIndexConcept
+/// @param i multi index
+/// @param j multi index
+/// @return true iff `dims_v<I> == dims_v<J>` and for all
+/// `0 <= k <= dims_v<I>`: `i[k] == j[k]`
+template <class I, class J,
+          typename = std::enable_if_t<isModelOfMultiIndex_v<I> &&
+                                      isModelOfMultiIndex_v<J>>>
+constexpr bool indexEqual(I const &i, J const &j) noexcept(noexcept(i[0]) &&
+                                                           noexcept(j[0])) {
+  using T = std::decay_t<decltype(i[0])>;
+  if (dims_v<I> != dims_v<J>) return false;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
+  for (std::size_t k = 0; k < dims_v<I>; ++k)
+    if (i[k] != static_cast<T>(j[k])) return false;
+#pragma clang diagnostic pop
+  return true;
+}
+
 /// @brief Computed the product of all indices of a multi index
 /// Test cases are in \ref testMultiIndex.cpp
 /// @tparam I model of \ref MultiIndexConcept
