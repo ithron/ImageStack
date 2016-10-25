@@ -13,6 +13,7 @@ namespace ImageStack {
 /// @tparam T type of stored elements
 template <class T> class HostStorage {
 public:
+  using ValueType = T;
   using Pointer = T *;
 
   /// @brief Create host storage object and allocate memory
