@@ -62,9 +62,14 @@ if (("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" 
     -Wno-c++98-compat
     -Wno-c++98-compat-bind-to-temporary-copy
     -Wno-c++98-compat-pedantic
-    -Wno-reserved-id-macro
     -Qunused-arguments
   )
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.5)
+    set(DEFAULT_COMPILER_OPTIONS
+      ${DEFAULT_COMPILER_OPTIONS}
+      -Wno-reserved-id-macro
+    )
+  endif()
 endif()
 if (${CMAKE_COMPILER_IS_GNUCXX})
   set(DEFAULT_COMPILER_OPTIONS
