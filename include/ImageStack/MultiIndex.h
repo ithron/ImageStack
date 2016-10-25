@@ -247,6 +247,23 @@ constexpr auto subindex(I const &i) noexcept(noexcept(i[0])) {
                             std::index_sequence<Dims...>>{});
 }
 
+/// @brief ostream operator<< for multi indices
+///
+/// The output format is `(i_0, i_1, ...)`
+/// @tparam I model of \ref MultiIndexConcept
+/// @param os reference to std::ostream
+/// @param i multi index
+/// @return os
+template <class I, typename = std::enable_if_t<
+                       isModelOfMultiIndex_v<I> &&
+                       !std::is_constructible<std::string, I>::value>>
+std::ostream &operator<<(std::ostream &os, I const &i) {
+  os << '(';
+  for (std::size_t j = 0; j < dims_v<I> - 1; ++j) os << i[j] << ',';
+  os << i[dims_v<I> - 1] << ')';
+  return os;
+}
+
 /// @}
 
 } // namespace ImageStack
