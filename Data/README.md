@@ -41,9 +41,9 @@ The values increase by 0.5 with each voxel in Y-direction, by
   * Size 20 x 40 x 10
   * Voxel Size [mm] 0.25 x 0.5 x 1.0
 ### ascending_Mask.bst
-A mask with ascending volxel values in the range [0, 255].
-The values increase by `d := 255/8000` with each voxel in Y-direction, by
-`20 * d` in the X-direction and by `800 * d` in the Z-direction. All values are
+A mask with ascending volxel values in the range [-128, 127].  The values start
+by -129 and increas by `d := 255/7999` with each voxel in Y-direction, by `40 *
+d` in the X-direction and by `800 * d` in the Z-direction. All values are
 rounded to the nearest integer.
 
   * Size 20 x 40 x 10
