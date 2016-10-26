@@ -129,10 +129,13 @@ toLinearReorder(I const &i, S const &s,
   // dimensions is required. This is stored here
   size_t sizeOfPrevDims = dims_v<I>> 1 ? static_cast<size_t>(s[order[0]]) : 0;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
   for (size_t d = 1; d < dims_v<I>; ++d) {
     linIdx += static_cast<size_t>(i[order[d]]) * sizeOfPrevDims;
     sizeOfPrevDims *= static_cast<size_t>(s[order[d]]);
   }
+#pragma clang diagnostic pop
 
   return linIdx;
 }
@@ -260,7 +263,10 @@ template <class I, typename = std::enable_if_t<
                        !std::is_constructible<std::string, I>::value>>
 std::ostream &operator<<(std::ostream &os, I const &i) {
   os << '(';
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
   for (std::size_t j = 0; j < dims_v<I> - 1; ++j) os << i[j] << ',';
+#pragma clang diagnostic pop
   os << i[dims_v<I> - 1] << ')';
   return os;
 }

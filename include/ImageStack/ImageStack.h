@@ -9,6 +9,8 @@
 
 namespace ImageStack {
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
 /// @brief class representing a 3D image that can be represented as a stack of
 /// 2D images
 ///
@@ -106,6 +108,8 @@ private:
 
   Storage storage_;
 };
+
+#pragma clang diagnostic pop
 
 /// @{
 /// @ingroup TypeTraits
