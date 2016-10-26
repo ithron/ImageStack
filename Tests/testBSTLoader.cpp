@@ -34,8 +34,9 @@ static std::string const ascendingMaskFile =
 static Size3 const ascendingImageSize{20, 40, 10};
 static Eigen::Vector3d const ascendingImageResolution{0.25, 0.5, 1.0};
 
-using Img = ImageStack<float, HostStorage, ResolutionDecorator>;
-using Mask = ImageStack<std::uint8_t, HostStorage, ResolutionDecorator>;
+using Img = ::ImageStack::ImageStack<float, HostStorage, ResolutionDecorator>;
+using Mask =
+    ::ImageStack::ImageStack<std::uint8_t, HostStorage, ResolutionDecorator>;
 
 using ImgLoader = ImageStackLoaderBST<Img, false>;
 using MaskLoader = ImageStackLoaderBST<Mask, true>;

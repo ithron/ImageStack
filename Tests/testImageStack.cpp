@@ -70,10 +70,10 @@ public:
 };
 
 /// @brief ImageStack<> types to run tests with
-using ImageStackTypes =
-    ::testing::Types<ImageStack<std::int32_t, HostStorage>,
-                     ImageStack<std::array<std::uint8_t, 4>, HostStorage>,
-                     ImageStack<float, HostStorage>>;
+using ImageStackTypes = ::testing::Types<
+    ::ImageStack::ImageStack<std::int32_t, HostStorage>,
+    ::ImageStack::ImageStack<std::array<std::uint8_t, 4>, HostStorage>,
+    ::ImageStack::ImageStack<float, HostStorage>>;
 
 TYPED_TEST_CASE(ImageStackTest, ImageStackTypes);
 

@@ -84,7 +84,7 @@ public:
     return stream;
   }
 
-  inline BinWrapper &operator=(T val) noexcept(noexcept(val_ = val)) {
+  inline BinWrapper &operator=(T val) noexcept {
     val_ = val;
     return *this;
   }

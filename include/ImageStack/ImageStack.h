@@ -90,7 +90,7 @@ public:
   /// mapping object
   /// @pre `empty() == false`
   /// @return A const mapping object
-  inline auto map() const noexcept(noexcept(storage_.map())) {
+  inline auto map() const noexcept(noexcept(std::declval<Storage>().map())) {
     return storage_.map();
   }
 
@@ -98,7 +98,7 @@ public:
   /// mapping object
   /// @pre `empty() == false`
   /// @return A mapping object
-  inline auto map() noexcept(noexcept(storage_.map())) {
+  inline auto map() noexcept(noexcept(std::declval<Storage>().map())) {
     return storage_.map();
   }
 
