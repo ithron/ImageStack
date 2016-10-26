@@ -10,12 +10,29 @@
 #include <sstream>
 #include <string>
 
+// clang-format off
+#ifdef __APPLE__
+#  if !defined(__LITTLE_ENDIAN__) && !defined(__BIG_ENDIAN__)
+#    error Unsupported byte order
+#  endif
+#else
+#  include <endian.h>
+#  if __BYTE_ORDER == __LITTLE_ENDIAN
+#    define __LITTLE_ENDIAN__
+#  elif __BYTE_ORDER == __BIG_ENDIAN
+#    define __BIG_ENDIAN__
+#  else
+#    error Unsupported byte order
+#  endif
+#endif
+// clang-format on
+
 namespace ImageStack {
 
 namespace detail {
 
 template <typename T> constexpr T ntohT(T value) noexcept {
-#if __BYTE_ORDER == __LITTLE_ENDIAN
+#ifdef __LITTLE_ENDIAN__
   auto *ptr = reinterpret_cast<char *>(&value);
   std::reverse(ptr, ptr + sizeof(T));
 #endif
