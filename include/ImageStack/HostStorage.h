@@ -23,9 +23,8 @@ public:
   /// used
   template <class Size, typename = std::enable_if_t<
                             isModelOfMultiIndex_v<Size> && (dims_v<Size> >= 3)>>
-  inline explicit HostStorage(Size size) : size_(size[0], size[1], size[2]) {
-    storage_.reserve(indexProduct(size));
-  }
+  inline explicit HostStorage(Size size)
+      : size_(size[0], size[1], size[2]), storage_(indexProduct(size)) {}
 
   /// @brief Create host storage and initialize allocated memory with given
   /// value
