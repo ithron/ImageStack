@@ -110,9 +110,11 @@ TEST(BSTLoader, ReadMaskHeader) {
 ///   - the resolution is correct
 ///   - all values are 0
 TEST(BSTLoader, ZeroImage) {
+  {
+    ImgLoader loader(zeroImageFile);
+    ASSERT_NO_THROW({ Img tmp(loader); });
+  }
   ImgLoader loader(zeroImageFile);
-
-  ASSERT_NO_THROW({ Img tmp(loader); });
 
   Img const img(loader);
 
@@ -128,9 +130,11 @@ TEST(BSTLoader, ZeroImage) {
 ///   - the resolution is correct
 ///   - all values are 0
 TEST(BSTLoader, ZeroMask) {
+  {
+    MaskLoader loader(zeroMaskFile);
+    ASSERT_NO_THROW({ Mask tmp(loader); });
+  }
   MaskLoader loader(zeroMaskFile);
-
-  ASSERT_NO_THROW({ Mask tmp(loader); });
 
   Mask const mask(loader);
 
@@ -146,9 +150,11 @@ TEST(BSTLoader, ZeroMask) {
 ///   - the resolution is correct
 ///   - all values are 1
 TEST(BSTLoader, OnesImage) {
+  {
+    ImgLoader loader(onesImageFile);
+    ASSERT_NO_THROW({ Img tmp(loader); });
+  }
   ImgLoader loader(onesImageFile);
-
-  ASSERT_NO_THROW({ Img tmp(loader); });
 
   Img const img(loader);
 
@@ -164,9 +170,14 @@ TEST(BSTLoader, OnesImage) {
 ///   - the resolution is correct
 ///   - all values are 0
 TEST(BSTLoader, OnesMask) {
-  MaskLoader loader(onesMaskFile);
 
-  ASSERT_NO_THROW({ Mask tmp(loader); });
+  {
+
+    MaskLoader loader(onesMaskFile);
+
+    ASSERT_NO_THROW({ Mask tmp(loader); });
+  }
+  MaskLoader loader(onesMaskFile);
 
   Mask const mask(loader);
 
@@ -182,9 +193,11 @@ TEST(BSTLoader, OnesMask) {
 ///   - the resolution is correct
 ///   - all values are correct
 TEST(BSTLoader, AscendingImage) {
+  {
+    ImgLoader loader(ascendingImageFile);
+    ASSERT_NO_THROW({ Img tmp(loader); });
+  }
   ImgLoader loader(ascendingImageFile);
-
-  ASSERT_NO_THROW({ Img tmp(loader); });
 
   Img const img(loader);
 
@@ -212,9 +225,11 @@ TEST(BSTLoader, AscendingImage) {
 ///   - the resolution is correct
 ///   - all values are correct
 TEST(BSTLoader, AscendingMask) {
+  {
+    MaskLoader loader(ascendingMaskFile);
+    ASSERT_NO_THROW({ Mask tmp(loader); });
+  }
   MaskLoader loader(ascendingMaskFile);
-
-  ASSERT_NO_THROW({ Mask tmp(loader); });
 
   Mask const mask(loader);
 
