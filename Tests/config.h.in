@@ -1,0 +1,7 @@
+#pragma once
+
+namespace ImageStack {
+
+static constexpr char kTestDataDir[] = "@TEST_DATA_DIR@";
+
+} // namespace ImageStack

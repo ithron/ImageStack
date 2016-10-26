@@ -33,14 +33,14 @@ public:
 
   /// @brief Loads an image stack using the given loader
   template <class Loader>
-  explicit ImageStack(Loader const &loader)
+  explicit ImageStack(Loader &&loader)
       : Decorators(std::forward<Loader>(loader))..., storage_(loader.size()) {
 
     auto const size = loader.size();
     Expects(indexProduct(size) > 0);
 
     Storage store(size);
-    loader.template ReadData<StorageType>(store.map().begin());
+    loader.template readData<StorageType>(store.map().begin());
 
     storage_ = std::move(store);
   }

@@ -37,7 +37,7 @@ class DummyLoader {
 public:
   constexpr auto size() const { return std::array<Size, 3>{{42, 23, 5}}; }
 
-  template <class T, class OutIter> void ReadData(OutIter out) const {
+  template <class T, class OutIter> void readData(OutIter out) const {
     for (auto const &v : storedValues<T>()) *out++ = v;
   }
 
