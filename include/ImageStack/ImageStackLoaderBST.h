@@ -1,107 +1,104 @@
-#ifndef SIFILETOOLS_IMAGESTACKLOADERBST_HH
-#define SIFILETOOLS_IMAGESTACKLOADERBST_HH
+#pragma once
+
+#include "BinaryStream.h"
+#include "Types.h"
 
 extern "C" {
-// #include <arpa/inet.h>
 #include <endian.h>
 }
 
-#include <Base/Debug/Error.hh>
-#include <Base/Math/Vector3.hh>
-#include <Debug/Dvector.hh>
-#include <MetaUtils/AlgorithmWrapper.hh>
-#include <MetaUtils/MakeUnique.hh>
-#include <Misc/BinaryStream.hh>
-
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <memory>
-#include <cassert>
-#include <iterator>
 #include <algorithm>
+#include <fstream>
+#include <iterator>
+#include <memory>
+#include <sstream>
+#include <string>
 
-namespace {
+namespace ImageStack {
 
-template <typename T> constexpr T ntohT(T value, char *ptr = nullptr) noexcept {
-  return
+namespace detail {
+
+template <typename T> constexpr T ntohT(T value) noexcept {
 #if __BYTE_ORDER == __LITTLE_ENDIAN
-      ptr = reinterpret_cast<char *>(&value),
-      std::reverse(ptr, ptr + sizeof(T)),
+  auto *ptr = reinterpret_cast<char *>(&value);
+  std::reverse(ptr, ptr + sizeof(T));
 #endif
-      value;
+  return value;
 }
 
 } // anonymous namespace
 
-namespace SITools {
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+/// @brief Loader class for ImageStack for loading .bst files
+///
+/// Unit tests are in \ref testBSTLoader.cpp
+///
+/// @tparam ImageStack_ ImageStack type to load the data for
+/// @tparam IsMask bool value indicating if the loader should load a mask
+///(true) or an image (false).
 template <class ImageStack_, bool IsMask = false> class ImageStackLoaderBST {
-  enum class State { Uninitialized, Initialized, HeaderRead };
+  enum class State { Initialized, HeaderRead };
 
 public:
-  typedef ImageStack_ ImageStack;
+  using ImageStack = ImageStack_;
 
-  ImageStackLoaderBST(std::string filename) : state_(State::Uninitialized) {
-    std::ifstream in(filename);
-
-    if (!in.is_open()) {
-      BIASERR("Failted to open file '" << filename << "'");
-      throw std::runtime_error("Failed to open file '" + filename + "'");
-    }
-
-    in.close();
-
-    istream_ = std::make_unique<std::ifstream>(
+  /// @brief Create a loader object for the given filename
+  /// @param filename path to the file to load
+  /// @throw std::runtime_error if the file could not be opened
+  explicit ImageStackLoaderBST(std::string filename) {
+    auto in = std::make_unique<std::ifstream>(
         filename, std::ios_base::in | std::ios_base::binary);
-    state_ = State::Initialized;
+
+    if (!*in)
+      throw std::runtime_error("Failed to open file '" + filename + "'");
+
+    istream_ = std::move(in);
   }
 
-  inline bool IsReady() const { return state_ != State::Uninitialized; }
+  /// @brief Returns the size of the image or mask to be read
+  /// @note Calling this method may result in the header of the file beeing
+  /// read, depending if it was read before. That is why this methid is not
+  /// const or noexcept.
+  /// @return 3D size of the object to be loaded, the return type is a model of
+  ///  \ref MultiIndexConcept
+  inline auto size() {
+    if (state_ != State::HeaderRead) readHeader();
 
-  inline operator bool() const { return IsReady(); }
-
-  BIAS::Vector3<unsigned int> Dimension() {
-    if (!IsReady()) {
-      BIASERR("Load not Initialized");
-      return {0, 0, 0};
-    }
-
-    if (state_ == State::Initialized) { ReadHeader_(); }
-
-    assert(std::all_of(dimension_.begin(), dimension_.end(),
-                       [](std::int32_t i) { return i >= 0; }));
-
-    return {static_cast<unsigned int>(dimension_[0]),
-            static_cast<unsigned int>(dimension_[1]),
-            static_cast<unsigned int>(dimension_[2])};
+    return size_;
   }
 
-  BIAS::Vector3<double> Resolution() {
-    if (!IsReady()) {
-      BIASERR("Load not Initialized");
-      return {0, 0, 0};
-    }
-
-    if (state_ == State::Initialized) { ReadHeader_(); }
+  /// @brief Returns the resolution in mm of the file to be read
+  /// @note Calling this method may result in the header of the file beeing
+  /// read, depending if it was read before. That is why this methid is not
+  /// const or noexcept.
+  /// @return The 3D resolution of the object to be loaded in mm.
+  inline auto resolution() {
+    if (state_ != State::HeaderRead) readHeader();
 
     return resolution_;
   }
 
-  template <class T, class OutIter> void ReadData(OutIter out) {
-    typedef T value_type;
-    typedef std::istream_iterator<BinWrapper<value_type, Endianness::BigEndian>>
-        Iter;
+  /// @brief Read the data from the file into the given output iterator
+  /// @tparam T data type to read
+  /// @tparam OutIter output iterator
+  /// @param out output iterator where the read data goes
+  template <class T, class OutIter> void readData(OutIter out) {
+    using value_type = T;
+    using Iter =
+        std::istream_iterator<BinWrapper<value_type, Endianness::BigEndian>>;
 
-    assert(state_ == State::HeaderRead && "Must read header first");
+    if (state_ != State::HeaderRead) readHeader();
 
     istream_->seekg(startOfDtata_);
     std::copy(Iter(*istream_), Iter(), out);
   }
 
 private:
-  void ReadHeader_() {
-    assert(state_ == State::Initialized && "Uninitalized");
+  void readHeader() {
+    // the header should not be read twice
+    Expects(state_ == State::Initialized);
+
     std::size_t size;
     if (!IsMask) {
       // skip xyz information
@@ -112,9 +109,9 @@ private:
         std::uint32_t tmpU;
         istream_->read(reinterpret_cast<char *>(&tmp), sizeof(std::int32_t));
         // tmpU = ntohl(tmp);
-        tmpU = static_cast<std::uint32_t>(ntohT(tmp));
-        dimension_[static_cast<int>(i)] =
-            *reinterpret_cast<std::int32_t *>(&tmpU);
+        tmpU = static_cast<std::uint32_t>(detail::ntohT(tmp));
+        size_[static_cast<int>(i)] =
+            gsl::narrow<std::size_t>(*reinterpret_cast<std::int32_t *>(&tmpU));
       }
       // skip fuc
       istream_->seekg(1 * sizeof(std::int32_t), std::ios_base::cur);
@@ -123,11 +120,11 @@ private:
         double tmp;
         static_assert(sizeof(double) == 8, "Unsupported double size.");
         istream_->read(reinterpret_cast<char *>(&tmp), sizeof(double));
-        resolution_[i] = ntohT(tmp);
+        resolution_[i] = detail::ntohT(tmp);
       }
 
-      size = static_cast<std::size_t>(MIP::MU::product(dimension_)) *
-             sizeof(typename ImageStack::StorageType);
+      size = static_cast<Size>(indexProduct(size_) *
+                               sizeof(typename ImageStack::StorageType));
     } else {
       // Load header of mask file
       char dummy[1024];
@@ -138,7 +135,7 @@ private:
       {
         std::stringstream sstream(dummy);
         for (int i = 0; i < 3; ++i) {
-          sstream >> dimension_[i];
+          sstream >> size_[i];
           sstream.get();
         }
       }
@@ -153,31 +150,27 @@ private:
           sstream.get();
         }
       }
-      size = static_cast<std::size_t>(MIP::MU::product(dimension_)) *
+      size = static_cast<std::size_t>(indexProduct(size_)) *
              sizeof(typename ImageStack::StorageType);
     }
     // set start of data
     istream_->seekg(-static_cast<long>(size), std::ios_base::end);
     startOfDtata_ = istream_->tellg();
-#ifdef BIAS_DEBUG
     istream_->seekg(0, std::ios_base::end);
-    if (istream_->tellg() - startOfDtata_ != static_cast<long>(size)) {
-      std::cout << "Size mismatch: " << size << " vs. "
-                << istream_->tellg() - startOfDtata_ << std::endl;
-    }
-    assert(istream_->tellg() - startOfDtata_ == static_cast<long>(size) &&
-           "Size mismatch");
-#endif
+
+    Ensures(istream_->tellg() - startOfDtata_ == static_cast<long>(size) &&
+            "Size mismatch");
+
     state_ = State::HeaderRead;
   }
 
-  State state_;
-  BIAS::Vector3<std::int32_t> dimension_;
-  BIAS::Vector3<double> resolution_;
+  Eigen::Vector3d resolution_{Eigen::Vector3d::Zero()};
+  Size3 size_{Size3::Zero()};
+  State state_{State::Initialized};
   std::unique_ptr<std::ifstream> istream_;
   std::istream::pos_type startOfDtata_;
 };
 
-} // namespace SITools
+#pragma clang diagnostic pop
 
-#endif // SIFILETOOLS_IMAGESTACKLOADERBST_HH
+} // namespace ImageStack
