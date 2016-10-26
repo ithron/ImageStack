@@ -3,10 +3,6 @@
 #include "BinaryStream.h"
 #include "Types.h"
 
-extern "C" {
-#include <endian.h>
-}
-
 #include <algorithm>
 #include <fstream>
 #include <iterator>
