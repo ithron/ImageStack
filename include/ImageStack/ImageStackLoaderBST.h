@@ -17,11 +17,11 @@
 #  endif
 #else
 #  include <endian.h>
-#  if __BYTE_ORDER == __LITTLE_ENDIAN
+#  if (__BYTE_ORDER == __LITTLE_ENDIAN) && !defined(__LITTLE_ENDIAN__)
 #    define __LITTLE_ENDIAN__
-#  elif __BYTE_ORDER == __BIG_ENDIAN
+#  elif (__BYTE_ORDER == __BIG_ENDIAN) && !defined(__BIG_ENDIAN__)
 #    define __BIG_ENDIAN__
-#  else
+#  elif !defined(__LITTLE_ENDIAN__) && !defined(__BIG_ENDIAN__)
 #    error Unsupported byte order
 #  endif
 #endif
