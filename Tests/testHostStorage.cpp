@@ -95,3 +95,86 @@ TEST(HostStorage, Modify) {
   ASSERT_TRUE(std::equal(src.begin(), src.end(), store.map().begin()));
 }
 
+/// Creates an uninitialized HostStorage<int> object @c s and fills @c s with
+/// random data. Then create another HostStorage<int> obejct @c t by copying
+/// @c s.
+TEST(HostStorage, CopyConstruct) {
+  // generate test data
+  std::vector<int> src;
+  std::random_device rd;
+  std::generate_n(std::back_inserter(src), 4830, [&rd]() { return rd(); });
+  // Create destination storage
+  HS store(Size3(5, 23, 42));
+  
+  std::copy(src.begin(), src.end(), store.map().begin());
+  
+  HS const cpy(store);
+  
+  auto const srcMap = store.map();
+  auto const dstMap = cpy.map();
+  
+  ASSERT_TRUE(std::equal(srcMap.cbegin(), srcMap.cend(), dstMap.begin()));
+}
+
+/// Creates an uninitialized HostStorage<int> object @c s and fills @c s with
+/// random data. Then create another HostStorage<int> obejct @c t by moving
+/// @c s.
+TEST(HostStorage, MoveConstruct) {
+  // generate test data
+  std::vector<int> src;
+  std::random_device rd;
+  std::generate_n(std::back_inserter(src), 4830, [&rd]() { return rd(); });
+  // Create destination storage
+  HS store(Size3(5, 23, 42));
+  
+  std::copy(src.begin(), src.end(), store.map().begin());
+  
+  HS const mve(std::move(store));
+  
+  auto const dstMap = mve.map();
+  
+  ASSERT_TRUE(std::equal(src.cbegin(), src.cend(), dstMap.begin()));
+}
+
+/// Creates an uninitialized HostStorage<int> object @c s and fills @c s with
+/// random data. Then create another HostStorage<int> obejct @c t and copy @c s
+/// to @c t.
+TEST(HostStorage, Copy) {
+  // generate test data
+  std::vector<int> src;
+  std::random_device rd;
+  std::generate_n(std::back_inserter(src), 4830, [&rd]() { return rd(); });
+  // Create destination storage
+  HS store(Size3(5, 23, 42));
+  
+  std::copy(src.begin(), src.end(), store.map().begin());
+  
+  HS cpy(Size3::Zero());
+  cpy = store;
+  
+  auto const srcMap = store.map();
+  auto const dstMap = cpy.map();
+  
+  ASSERT_TRUE(std::equal(srcMap.cbegin(), srcMap.cend(), dstMap.begin()));
+}
+
+/// Creates an uninitialized HostStorage<int> object @c s and fills @c s with
+/// random data. Then create another HostStorage<int> obejct @c t and then move
+/// @c s to @c t.
+TEST(HostStorage, Move) {
+  // generate test data
+  std::vector<int> src;
+  std::random_device rd;
+  std::generate_n(std::back_inserter(src), 4830, [&rd]() { return rd(); });
+  // Create destination storage
+  HS store(Size3(5, 23, 42));
+  
+  std::copy(src.begin(), src.end(), store.map().begin());
+  
+  HS mve(Size3::Zero());
+  mve = std::move(store);
+  
+  auto const dstMap = mve.map();
+  
+  ASSERT_TRUE(std::equal(src.cbegin(), src.cend(), dstMap.begin()));
+}
