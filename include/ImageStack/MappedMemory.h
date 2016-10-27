@@ -24,6 +24,8 @@ public:
   using const_iterator = typename Memory::const_iterator;
   using difference_type = std::ptrdiff_t;
   using size_type = std::size_t;
+  using pointer = T *;
+  using const_pointer = T const *;
 
   /// @brief Const access the mapped memory using a multi index
   /// @tparam Idx model of \ref MultiIndexConcept
@@ -86,6 +88,11 @@ public:
   /// @brief Returns a iterator pointing to one element after the end of the
   /// memory region
   inline iterator end() noexcept { return memory_.end(); }
+
+  /// @brief returns a const pointer to the mapped memory region
+  inline T const *data() const noexcept { return memory_.data(); }
+  /// @brief returns a pointer to the mapped memory region
+  inline T *data() noexcept { return memory_.data(); }
 
 protected:
   /// @brief Protected constructor
