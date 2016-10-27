@@ -6,11 +6,14 @@ if(DOXYGEN_FOUND)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
     ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY
   )
-  add_custom_target(doc
-    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Generating API documentation with Doxygen" VERBATIM
-  )
+
+  if(NOT TARGET doc)
+    add_custom_target(doc
+      ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      COMMENT "Generating API documentation with Doxygen" VERBATIM
+    )
+  endif()
 endif()
 
 set(DEFAULT_COMPILE_FEATURES
@@ -87,7 +90,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(ImportGSL)
 include(ImportEigen)
 
-ADD_LIBRARY(ImageStack INTERFACE)
+add_library(ImageStack INTERFACE)
 target_compile_features(ImageStack INTERFACE ${DEFAULT_COMPILE_FEATURES})
 target_compile_options(ImageStack INTERFACE ${DEFAULT_COMPILER_OPTIONS})
 target_link_libraries(ImageStack INTERFACE GSL Eigen)
@@ -100,7 +103,13 @@ add_library(ImageStack::ImageStack ALIAS ImageStack)
 option(BUILD_TESTING "Build tests" ON)
 if(BUILD_TESTING)
   enable_testing()
+  include(ImportGTest)
   add_subdirectory(Tests)
+endif()
+
+option(BUILD_EXAMPLES "Build examples" ON)
+if (BUILD_EXAMPLES)
+  add_subdirectory(Examples)
 endif()
 
 ###############################
