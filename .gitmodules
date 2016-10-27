@@ -7,3 +7,6 @@
 [submodule "Dependencies/GSL"]
 	path = Dependencies/GSL
 	url = https://github.com/Microsoft/GSL.git
+[submodule "Dependencies/VolViz"]
+	path = Dependencies/VolViz
+	url = https://github.com/ithron/VolViz.git
