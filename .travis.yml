@@ -20,6 +20,8 @@ addons:
       - doxygen-doc
       - graphviz
       - libpthread-stubs0-dev
+      - xorg-dev
+      - libglu1-mesa-dev
 
 env:
   global:
