@@ -89,7 +89,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(ImportGSL)
 include(ImportEigen)
 
-ADD_LIBRARY(ImageStack INTERFACE)
+add_library(ImageStack INTERFACE)
 target_compile_features(ImageStack INTERFACE ${DEFAULT_COMPILE_FEATURES})
 target_compile_options(ImageStack INTERFACE ${DEFAULT_COMPILER_OPTIONS})
 target_link_libraries(ImageStack INTERFACE GSL Eigen)
@@ -102,7 +102,13 @@ add_library(ImageStack::ImageStack ALIAS ImageStack)
 option(BUILD_TESTING "Build tests" ON)
 if(BUILD_TESTING)
   enable_testing()
+  include(ImportGTest)
   add_subdirectory(Tests)
+endif()
+
+option(BUILD_EXAMPLES "Build examples" ON)
+if (BUILD_EXAMPLES)
+  add_subdirectory(Examples)
 endif()
 
 ###############################

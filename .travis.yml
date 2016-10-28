@@ -20,6 +20,8 @@ addons:
       - doxygen-doc
       - graphviz
       - libpthread-stubs0-dev
+      - xorg-dev
+      - libglu1-mesa-dev
 
 env:
   global:
@@ -140,7 +142,7 @@ before_script:
   - |
     if [ "$TRAVIS_OS_NAME" = "linux" ]; then
       cmake --version
-      cmake -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+      cmake -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DFIX_MISSING_GL_IMPLEMENTATIONS=1
     elif [ "$TRAVIS_OS_NAME" = "osx" ]; then
       brew update
       brew upgrade cmake

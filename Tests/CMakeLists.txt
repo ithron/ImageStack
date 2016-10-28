@@ -9,8 +9,6 @@ configure_file(
 
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
-include(ImportGTest)
-
 add_executable(TestMultiIndex testMultiIndex.cpp)
 target_link_libraries(TestMultiIndex PRIVATE ImageStack GTest)
 add_test(TestMultiIndex TestMultiIndex)
