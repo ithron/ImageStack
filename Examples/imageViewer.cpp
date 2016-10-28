@@ -11,8 +11,8 @@ using namespace ImageStack;
 using namespace VolViz;
 using namespace VolViz::literals;
 
-using Img = ImageStack<float, HostStorage, ResolutionDecorator>;
-using Loader = ImageStackLoaderBST<Img>;
+using Img = ::ImageStack::ImageStack<float, HostStorage, ResolutionDecorator>;
+using Loader = ::ImageStack::ImageStackLoaderBST<Img>;
 
 int main(int argc, char **argv) {
   if (argc != 2) {
