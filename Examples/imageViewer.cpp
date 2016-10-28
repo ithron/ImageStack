@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
     AxisAlignedPlaneDescriptor plane;
     plane.axis = Axis::X;
     plane.color = Colors::White();
-    plane.intercept = 0_mm;
+    plane.intercept = 100_um;
     viewer.addGeometry("X-Plane", plane);
 
     plane.axis = Axis::Y;
@@ -42,10 +42,23 @@ int main(int argc, char **argv) {
     vol.voxelSize[1] = img.resolution[1] * 1_mm;
     vol.voxelSize[2] = img.resolution[2] * 1_mm;
     vol.size = img.size();
+    vol.type = VolumeType::GrayScale;
 
     auto const map = img.map();
     viewer.setVolume(vol, gsl::span<float const>(
                               map.data(), gsl::narrow<int>(map.linearSize())));
+
+    Light light;
+    light.ambientFactor = 1.0f;
+    light.color = Colors::White();
+    light.position = PositionH(1, 1, 1, 0);
+    viewer.addLight(0, light);
+    light.position = PositionH(2, 1, 1, 0);
+    viewer.addLight(1, light);
+    light.position = PositionH(1, 2, 1, 0);
+    viewer.addLight(2, light);
+
+    viewer.scale = 100_um;
 
     viewer.start();
     viewer.renderOnUserInteraction();
