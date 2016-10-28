@@ -1,16 +1,18 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 project(ImageStack VERSION 0.1.0 LANGUAGES C CXX)
 
-find_package(Doxygen)
-if(DOXYGEN_FOUND)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
-    ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY
-  )
-  add_custom_target(doc
-    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Generating API documentation with Doxygen" VERBATIM
-  )
+if (NOT TARGET doc)
+  find_package(Doxygen)
+  if(DOXYGEN_FOUND)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
+      ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY
+    )
+    add_custom_target(doc
+      ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      COMMENT "Generating API documentation with Doxygen" VERBATIM
+    )
+  endif()
 endif()
 
 set(DEFAULT_COMPILE_FEATURES
@@ -92,7 +94,7 @@ target_compile_features(ImageStack INTERFACE ${DEFAULT_COMPILE_FEATURES})
 target_compile_options(ImageStack INTERFACE ${DEFAULT_COMPILER_OPTIONS})
 target_link_libraries(ImageStack INTERFACE GSL Eigen)
 target_include_directories(ImageStack INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
 add_library(ImageStack::ImageStack ALIAS ImageStack)
@@ -119,20 +121,14 @@ install(
 install(EXPORT ImageStackExport NAMESPACE ImageStack::
   DESTINATION lib/cmake/ImageStack
 )
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
   DESTINATION include
-)
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/Dependencies/eigen/Eigen
-  DESTINATION include/ImageStack/eigen
-)
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/Dependencies/GSL/gsl
-  DESTINATION include/ImageStack
 )
 export(EXPORT ImageStackExport NAMESPACE ImageStack::)
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
-  ${CMAKE_SOURCE_DIR}/cmake/ImageStackConfig.cmake.in
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImageStackConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/ImageStackConfig.cmake
   INSTALL_DESTINATION lib/cmake/ImageStack
 )
