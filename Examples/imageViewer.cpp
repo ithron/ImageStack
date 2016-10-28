@@ -15,9 +15,16 @@ using Img = ::ImageStack::ImageStack<float, HostStorage, ResolutionDecorator>;
 using Loader = ::ImageStack::ImageStackLoaderBST<Img>;
 
 int main(int argc, char **argv) {
-  if (argc != 2) {
-    std::cerr << "Usage: " << argv[0] << " image" << std::endl;
+  if (argc != 2 && argc != 4) {
+    std::cerr << "Usage: " << argv[0] << " image [min max]" << std::endl;
     return EXIT_FAILURE;
+  }
+
+  Range<float> range{0.f, 0.f};
+
+  if (argc == 4) {
+    range.min = gsl::narrow<float>(atof(argv[2]));
+    range.max = gsl::narrow<float>(atof(argv[3]));
   }
 
   try {
@@ -25,10 +32,12 @@ int main(int argc, char **argv) {
 
     Visualizer viewer;
 
+    viewer.showGrid = false;
+
     AxisAlignedPlaneDescriptor plane;
     plane.axis = Axis::X;
     plane.color = Colors::White();
-    plane.intercept = 100_um;
+    plane.intercept = 0_mm;
     viewer.addGeometry("X-Plane", plane);
 
     plane.axis = Axis::Y;
@@ -43,6 +52,8 @@ int main(int argc, char **argv) {
     vol.voxelSize[2] = img.resolution[2] * 1_mm;
     vol.size = img.size();
     vol.type = VolumeType::GrayScale;
+    vol.range = range;
+    vol.interpolation = InterpolationType::Linear;
 
     auto const map = img.map();
     viewer.setVolume(vol, gsl::span<float const>(
@@ -53,12 +64,8 @@ int main(int argc, char **argv) {
     light.color = Colors::White();
     light.position = PositionH(1, 1, 1, 0);
     viewer.addLight(0, light);
-    light.position = PositionH(2, 1, 1, 0);
-    viewer.addLight(1, light);
-    light.position = PositionH(1, 2, 1, 0);
-    viewer.addLight(2, light);
 
-    viewer.scale = 100_um;
+    viewer.scale = 1_mm;
 
     viewer.start();
     viewer.renderOnUserInteraction();
