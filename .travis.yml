@@ -5,6 +5,9 @@ branches:
 
 language: c++
 
+git:
+  submodules: false
+
 addons:
   apt:
     sources:
@@ -140,6 +143,7 @@ before_install:
 
 before_script:
   - |
+    ./initDependencies.sh &&
     if [ "$TRAVIS_OS_NAME" = "linux" ]; then
       cmake --version
       cmake -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DFIX_MISSING_GL_IMPLEMENTATIONS=1
