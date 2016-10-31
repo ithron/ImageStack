@@ -7,15 +7,15 @@ if(NOT TARGET GSL)
 
   if (XCODE)
     set_property(TARGET GSL PROPERTY INTERFACE_COMPILE_OPTIONS
-      -isystem$<BUILD_INTERFACE:${DEPENDENCIES_DIR}/GSL/include>$<INSTALL_INTERFACE:include/ImageStack/gsl>
+      -isystem$<BUILD_INTERFACE:${DEPENDENCIES_DIR}/GSL/gsl>$<INSTALL_INTERFACE:include/ImageStack/gsl>
     )
   else()
     set_property(TARGET GSL PROPERTY INTERFACE_INCLUDE_DIRECTORIES
-      $<BUILD_INTERFACE:${DEPENDENCIES_DIR}/GSL/include>
+      $<BUILD_INTERFACE:${DEPENDENCIES_DIR}/GSL/gsl>
       $<INSTALL_INTERFACE:include/ImageStack/gsl>
     )
     set_property(TARGET GSL PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES
-      $<BUILD_INTERFACE:${DEPENDENCIES_DIR}/GSL/include>
+      $<BUILD_INTERFACE:${DEPENDENCIES_DIR}/GSL/gsl>
       $<INSTALL_INTERFACE:include/ImageStack/gsl>
     )
   endif()
@@ -27,7 +27,7 @@ if(NOT TARGET GSL)
   endif()
 
   install(TARGETS GSL EXPORT ImageStackExport)
-  install(DIRECTORY ${DEPENDENCIES_DIR}/GSL/include
+  install(DIRECTORY ${DEPENDENCIES_DIR}/GSL/gsl
     DESTINATION include/ImageStack
   )
 endif()

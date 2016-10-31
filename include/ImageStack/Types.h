@@ -1,9 +1,11 @@
 #pragma once
 
 #include <Eigen/Core>
-#include <gsl.h>
+#include <gsl>
 
 namespace ImageStack {
+
+using namespace gsl;
 
 using Size = std::size_t;
 using Size3 = Eigen::Matrix<std::size_t, 3, 1>;

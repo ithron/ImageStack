@@ -124,7 +124,7 @@ private:
         // tmpU = ntohl(tmp);
         tmpU = static_cast<std::uint32_t>(detail::ntohT(tmp));
         size_[static_cast<int>(i)] =
-            gsl::narrow<std::size_t>(*reinterpret_cast<std::int32_t *>(&tmpU));
+            narrow<std::size_t>(*reinterpret_cast<std::int32_t *>(&tmpU));
       }
       // skip fuc
       istream_->seekg(1 * sizeof(std::int32_t), std::ios_base::cur);

@@ -12,7 +12,7 @@ namespace ImageStack {
 /// @tparam T type of stored elements
 /// @tparam dims number of dimensiosn of the mapping, must be > 0
 template <class T, Size dims = 1> class MappedMemoryBase {
-  using Memory = gsl::span<T>;
+  using Memory = span<T>;
 
 public:
   static_assert(dims > 0, "dims must not be 0");
@@ -97,27 +97,27 @@ public:
 protected:
   /// @brief Protected constructor
   /// @tparam S model of \ref MultiIndexConcept
-  /// @param memory @c gsl::span<T> pointing to the mapped memory
+  /// @param memory @c span<T> pointing to the mapped memory
   /// @param size size of the first <b>dims - 1</b> dimensions
   template <class S, typename = std::enable_if_t<isModelOfMultiIndex_v<S>>>
-  inline MappedMemoryBase(gsl::not_null<T *> memory,
+  inline MappedMemoryBase(not_null<T *> memory,
                           S const &size) noexcept(noexcept(size[0]))
       : MappedMemoryBase(memory, size,
                          std::integral_constant<bool, (dims > 1)>{}) {}
 
 private:
   template <class S>
-  inline MappedMemoryBase(gsl::not_null<T *> memory, S const &size,
+  inline MappedMemoryBase(not_null<T *> memory, S const &size,
                           std::false_type) noexcept(noexcept(size[0]))
-      : memory_(memory, gsl::narrow_cast<std::ptrdiff_t>(size[0])) {}
+      : memory_(memory, narrow_cast<std::ptrdiff_t>(size[0])) {}
 
   template <class S>
-  inline MappedMemoryBase(gsl::not_null<T *> memory, S const &size,
+  inline MappedMemoryBase(not_null<T *> memory, S const &size,
                           std::true_type) noexcept(noexcept(size[0]))
       : MappedMemoryBase(memory, size, std::make_index_sequence<dims - 1>{}) {}
 
   template <class S, std::size_t... I>
-  inline MappedMemoryBase(gsl::not_null<T *> memory, S const &size,
+  inline MappedMemoryBase(not_null<T *> memory, S const &size,
                           std::index_sequence<I...>) noexcept(noexcept(size[0]))
       : memory_(memory, static_cast<std::ptrdiff_t>(
                             indexProduct(subindex<dims - 1, I...>(size)) *
@@ -140,7 +140,7 @@ private:
   }
 
   /// @brief Store the mapped region
-  gsl::span<T> memory_;
+  span<T> memory_;
   /// @brief Store sizes of the the first <b>dims - 1</b> dimensions
   std::array<Size, dims - 1> size_;
 };
@@ -164,7 +164,7 @@ public:
   /// @param startPtr pointer to the start of the region, must not be null_ptr
   /// @param size size of each dimension of the memory region
   template <class S, typename = std::enable_if_t<isModelOfMultiIndex_v<S>>>
-  inline MappedHostMemory(gsl::not_null<T *> startPtr,
+  inline MappedHostMemory(not_null<T *> startPtr,
                           S const &size) noexcept(noexcept(indexProduct(size)))
       : Base(startPtr, size) {}
 };

@@ -3,8 +3,6 @@
 #include <ImageStack/ResolutionDecorator.h>
 #include <VolViz/VolViz.h>
 
-#include <gsl.h>
-
 #include <iostream>
 
 using namespace ImageStack;
@@ -23,8 +21,8 @@ int main(int argc, char **argv) {
   Range<float> range{0.f, 0.f};
 
   if (argc == 4) {
-    range.min = gsl::narrow<float>(atof(argv[2]));
-    range.max = gsl::narrow<float>(atof(argv[3]));
+    range.min = narrow<float>(atof(argv[2]));
+    range.max = narrow<float>(atof(argv[3]));
   }
 
   try {
