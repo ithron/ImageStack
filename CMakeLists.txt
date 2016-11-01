@@ -87,6 +87,7 @@ set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 include(ImportGSL)
+include(ImportMKL)
 include(ImportEigen)
 
 add_library(ImageStack INTERFACE)

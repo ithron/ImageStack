@@ -15,6 +15,7 @@ if(NOT TARGET Eigen)
         $<BUILD_INTERFACE:${DEPENDENCIES_DIR}/eigen>
     )
   endif()
+  target_link_libraries(Eigen INTERFACE ${MKL_LIBRARIES})
 
   install(DIRECTORY ${DEPENDENCIES_DIR}/eigen/Eigen
     DESTINATION include/ImageStack
