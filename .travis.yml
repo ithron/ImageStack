@@ -52,85 +52,71 @@ matrix:
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Debug CLANG_VERSION=3.7.0
       compiler: clang
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Release CLANG_VERSION=3.7.0
       compiler: clang
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Debug CLANG_VERSION=3.7.1
       compiler: clang
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Release CLANG_VERSION=3.7.1
       compiler: clang
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Debug CLANG_VERSION=3.8.0
       compiler: clang
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Release CLANG_VERSION=3.8.0
       compiler: clang
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Debug CLANG_VERSION=3.8.1
       compiler: clang
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Release CLANG_VERSION=3.8.1
       compiler: clang
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Debug CLANG_VERSION=3.9.0
       compiler: clang
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Release CLANG_VERSION=3.9.0
       compiler: clang
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Debug GCC_VERSION=5
       compiler: gcc
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Release GCC_VERSION=5
       compiler: gcc
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Debug GCC_VERSION=6
       compiler: gcc
 
     - os: linux
       dist: trusty
-      sudo: required
       env: BUILD_TYPE=Release GCC_VERSION=6
       compiler: gcc
 
