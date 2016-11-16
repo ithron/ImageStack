@@ -12,25 +12,23 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - george-edison55-precise-backports
-      - llvm-toolchain-precise-3.8
     packages:
       - g++-5
       - g++-6
-      - cmake
-      - cmake-data
+      - xorg-dev
+      - libglu1-mesa-dev
+      - mesa-common-dev
+      - libpthread-stubs0-dev
       - doxygen
       - doxygen-doc
       - graphviz
-      - libpthread-stubs0-dev
-      - xorg-dev
-      - libglu1-mesa-dev
 
 env:
   global:
     - GH_REPO_NAME: ImageStack
     - GH_REPO_REF: github.com/ithron/ImageStack.git
     - DOXYFILE: $TRAVIS_BUILD_DIR/Doxyfile
+    - CTEST_OUTPUT_ON_FAILURE: TRUE¬
 
 matrix:
   include:
@@ -52,77 +50,95 @@ matrix:
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Debug CLANG_VERSION=3.7.0
       compiler: clang
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Release CLANG_VERSION=3.7.0
       compiler: clang
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Debug CLANG_VERSION=3.7.1
       compiler: clang
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Release CLANG_VERSION=3.7.1
       compiler: clang
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Debug CLANG_VERSION=3.8.0
       compiler: clang
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Release CLANG_VERSION=3.8.0
       compiler: clang
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Debug CLANG_VERSION=3.8.1
       compiler: clang
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Release CLANG_VERSION=3.8.1
       compiler: clang
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Debug CLANG_VERSION=3.9.0
       compiler: clang
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Release CLANG_VERSION=3.9.0
       compiler: clang
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Debug GCC_VERSION=5
       compiler: gcc
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Release GCC_VERSION=5
       compiler: gcc
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Debug GCC_VERSION=6
       compiler: gcc
 
     - os: linux
       dist: trusty
+      sudo: required
       env: BUILD_TYPE=Release GCC_VERSION=6
       compiler: gcc
 
 before_install:
   - |
     if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      mkdir -p $HOME/cmake
+      wget --no-check-certificate https://cmake.org/files/v3.3/cmake-3.3.0-Linux-x86_64.sh &&
+        sh cmake-3.3.0-Linux-x86_64.sh --skip-license --prefix=$HOME/cmake
+      export CMAKE=$HOME/cmake/bin/cmake
       if [ "$CXX" = "clang++" ]; then
         export DEPS_DIR=${TRAVIS_BUILD_DIR}/deps
         export CLANG_DIR=${DEPS_DIR}/clang-$CLANG_VERSION
@@ -143,8 +159,8 @@ before_script:
   - |
     ./initDependencies.sh &&
     if [ "$TRAVIS_OS_NAME" = "linux" ]; then
-      cmake --version
-      cmake -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DFIX_MISSING_GL_IMPLEMENTATIONS=1
+      $CMAKE --version
+      $CMAKE -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DFIX_MISSING_GL_IMPLEMENTATIONS=1
     elif [ "$TRAVIS_OS_NAME" = "osx" ]; then
       brew update
       brew upgrade cmake
