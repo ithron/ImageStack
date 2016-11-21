@@ -2,3 +2,6 @@
 .lvimrc
 *.swp
 build/
+
+# Xcode
+**/xcuserdata/
