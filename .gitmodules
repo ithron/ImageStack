@@ -10,3 +10,6 @@
 [submodule "Dependencies/VolViz"]
 	path = Dependencies/VolViz
 	url = https://github.com/ithron/VolViz.git
+[submodule "Dependencies/xcode-googletest"]
+	path = Dependencies/xcode-googletest
+	url = https://github.com/mattstevens/xcode-googletest.git
