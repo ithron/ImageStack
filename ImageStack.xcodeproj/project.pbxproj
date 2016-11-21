@@ -1,0 +1,754 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F89400791DE31EF800CAE22F /* GoogleTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = F89400781DE31EF800CAE22F /* GoogleTests.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
+		F894007C1DE31F4400CAE22F /* testBSTLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F89400641DE31E0F00CAE22F /* testBSTLoader.cpp */; };
+		F894007D1DE31F4600CAE22F /* testHostStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F89400651DE31E0F00CAE22F /* testHostStorage.cpp */; };
+		F894007E1DE31F4900CAE22F /* testImageStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F89400661DE31E0F00CAE22F /* testImageStack.cpp */; };
+		F894007F1DE31F4E00CAE22F /* testMultiIndex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F89400671DE31E0F00CAE22F /* testMultiIndex.cpp */; };
+		F89400801DE31F5200CAE22F /* testMappedMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F89400681DE31E0F00CAE22F /* testMappedMemory.cpp */; };
+		F89400811DE31F5900CAE22F /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F89400551DE31D8100CAE22F /* libgtest.a */; };
+		F894008F1DE3332000CAE22F /* imageViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F894006A1DE31E2B00CAE22F /* imageViewer.cpp */; };
+		F89400921DE3334000CAE22F /* libVolViz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F89400481DE31D4C00CAE22F /* libVolViz.a */; };
+		F894011C1DE348B300CAE22F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F894011B1DE348B300CAE22F /* Cocoa.framework */; };
+		F894011E1DE348B900CAE22F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F894011D1DE348B900CAE22F /* OpenGL.framework */; };
+		F89401221DE348DE00CAE22F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89401211DE348DE00CAE22F /* IOKit.framework */; };
+		F89401241DE3490800CAE22F /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89401231DE3490800CAE22F /* CoreVideo.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F89400471DE31D4C00CAE22F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F89400411DE31D4B00CAE22F /* VolViz.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F86847D71DE2E6A900FF3913;
+			remoteInfo = VolViz;
+		};
+		F89400491DE31D4C00CAE22F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F89400411DE31D4B00CAE22F /* VolViz.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F868482E1DE2F63C00FF3913;
+			remoteInfo = VolVisualizer;
+		};
+		F89400541DE31D8100CAE22F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F894004B1DE31D8100CAE22F /* gtest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8F9091769A4945B694E4CD82;
+			remoteInfo = gtest;
+		};
+		F89400561DE31D8100CAE22F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F894004B1DE31D8100CAE22F /* gtest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3462926793854043B0209C30;
+			remoteInfo = gtest_main;
+		};
+		F89400821DE31F6400CAE22F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F894004B1DE31D8100CAE22F /* gtest.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BDE5C20EF80A4BA9AC7113DF;
+			remoteInfo = gtest;
+		};
+		F89400B41DE338B100CAE22F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F89400411DE31D4B00CAE22F /* VolViz.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F86847D61DE2E6A900FF3913;
+			remoteInfo = VolViz;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F89400861DE3330C00CAE22F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F89400411DE31D4B00CAE22F /* VolViz.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VolViz.xcodeproj; path = Dependencies/VolViz/VolViz.xcodeproj; sourceTree = "<group>"; };
+		F894004B1DE31D8100CAE22F /* gtest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gtest.xcodeproj; path = Dependencies/build/googletest/googletest/gtest.xcodeproj; sourceTree = "<group>"; };
+		F89400591DE31DE400CAE22F /* ImageStackLoaderBST.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImageStackLoaderBST.h; path = include/ImageStack/ImageStackLoaderBST.h; sourceTree = "<group>"; };
+		F894005A1DE31DE400CAE22F /* MappedMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MappedMemory.h; path = include/ImageStack/MappedMemory.h; sourceTree = "<group>"; };
+		F894005B1DE31DE400CAE22F /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Types.h; path = include/ImageStack/Types.h; sourceTree = "<group>"; };
+		F894005C1DE31DE400CAE22F /* ImageStack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImageStack.h; path = include/ImageStack/ImageStack.h; sourceTree = "<group>"; };
+		F894005D1DE31DE400CAE22F /* HostStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HostStorage.h; path = include/ImageStack/HostStorage.h; sourceTree = "<group>"; };
+		F894005E1DE31DE400CAE22F /* BinaryStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BinaryStream.h; path = include/ImageStack/BinaryStream.h; sourceTree = "<group>"; };
+		F894005F1DE31DE400CAE22F /* MultiIndex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MultiIndex.h; path = include/ImageStack/MultiIndex.h; sourceTree = "<group>"; };
+		F89400601DE31DE400CAE22F /* ResolutionDecorator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ResolutionDecorator.h; path = include/ImageStack/ResolutionDecorator.h; sourceTree = "<group>"; };
+		F89400611DE31DE400CAE22F /* TypeTraits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TypeTraits.h; path = include/ImageStack/TypeTraits.h; sourceTree = "<group>"; };
+		F89400621DE31DE400CAE22F /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Debug.h; path = include/ImageStack/Debug.h; sourceTree = "<group>"; };
+		F89400641DE31E0F00CAE22F /* testBSTLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = testBSTLoader.cpp; path = Tests/testBSTLoader.cpp; sourceTree = "<group>"; };
+		F89400651DE31E0F00CAE22F /* testHostStorage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = testHostStorage.cpp; path = Tests/testHostStorage.cpp; sourceTree = "<group>"; };
+		F89400661DE31E0F00CAE22F /* testImageStack.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = testImageStack.cpp; path = Tests/testImageStack.cpp; sourceTree = "<group>"; };
+		F89400671DE31E0F00CAE22F /* testMultiIndex.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = testMultiIndex.cpp; path = Tests/testMultiIndex.cpp; sourceTree = "<group>"; };
+		F89400681DE31E0F00CAE22F /* testMappedMemory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = testMappedMemory.cpp; path = Tests/testMappedMemory.cpp; sourceTree = "<group>"; };
+		F894006A1DE31E2B00CAE22F /* imageViewer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = imageViewer.cpp; path = Examples/imageViewer.cpp; sourceTree = "<group>"; };
+		F894006F1DE31EDE00CAE22F /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F89400741DE31EDF00CAE22F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Tests/Info.plist; sourceTree = "<group>"; };
+		F89400781DE31EF800CAE22F /* GoogleTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GoogleTests.mm; path = "Dependencies/xcode-googletest/Bundle/GoogleTests.mm"; sourceTree = SOURCE_ROOT; };
+		F89400881DE3330C00CAE22F /* ImageViewer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ImageViewer; sourceTree = BUILT_PRODUCTS_DIR; };
+		F894011B1DE348B300CAE22F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		F894011D1DE348B900CAE22F /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		F894011F1DE348BF00CAE22F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		F89401211DE348DE00CAE22F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		F89401231DE3490800CAE22F /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F894006C1DE31EDE00CAE22F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F89400811DE31F5900CAE22F /* libgtest.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F89400851DE3330C00CAE22F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F89400921DE3334000CAE22F /* libVolViz.a in Frameworks */,
+				F89401221DE348DE00CAE22F /* IOKit.framework in Frameworks */,
+				F89401241DE3490800CAE22F /* CoreVideo.framework in Frameworks */,
+				F894011E1DE348B900CAE22F /* OpenGL.framework in Frameworks */,
+				F894011C1DE348B300CAE22F /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F89400391DE31CD600CAE22F = {
+			isa = PBXGroup;
+			children = (
+				F89400581DE31DC200CAE22F /* Public Headers */,
+				F89400631DE31DEC00CAE22F /* Tests */,
+				F89400691DE31E1A00CAE22F /* Examples */,
+				F89400401DE31D2D00CAE22F /* Dependencies */,
+				F89400701DE31EDE00CAE22F /* Products */,
+				F894011A1DE348B300CAE22F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F89400401DE31D2D00CAE22F /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				F89400411DE31D4B00CAE22F /* VolViz.xcodeproj */,
+				F894004B1DE31D8100CAE22F /* gtest.xcodeproj */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		F89400421DE31D4B00CAE22F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F89400481DE31D4C00CAE22F /* libVolViz.a */,
+				F894004A1DE31D4C00CAE22F /* VolVisualizer */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F894004C1DE31D8100CAE22F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F89400551DE31D8100CAE22F /* libgtest.a */,
+				F89400571DE31D8100CAE22F /* libgtest_main.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F89400581DE31DC200CAE22F /* Public Headers */ = {
+			isa = PBXGroup;
+			children = (
+				F89400591DE31DE400CAE22F /* ImageStackLoaderBST.h */,
+				F894005A1DE31DE400CAE22F /* MappedMemory.h */,
+				F894005B1DE31DE400CAE22F /* Types.h */,
+				F894005C1DE31DE400CAE22F /* ImageStack.h */,
+				F894005D1DE31DE400CAE22F /* HostStorage.h */,
+				F894005E1DE31DE400CAE22F /* BinaryStream.h */,
+				F894005F1DE31DE400CAE22F /* MultiIndex.h */,
+				F89400601DE31DE400CAE22F /* ResolutionDecorator.h */,
+				F89400611DE31DE400CAE22F /* TypeTraits.h */,
+				F89400621DE31DE400CAE22F /* Debug.h */,
+			);
+			name = "Public Headers";
+			sourceTree = "<group>";
+		};
+		F89400631DE31DEC00CAE22F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				F89400641DE31E0F00CAE22F /* testBSTLoader.cpp */,
+				F89400651DE31E0F00CAE22F /* testHostStorage.cpp */,
+				F89400661DE31E0F00CAE22F /* testImageStack.cpp */,
+				F89400671DE31E0F00CAE22F /* testMultiIndex.cpp */,
+				F89400681DE31E0F00CAE22F /* testMappedMemory.cpp */,
+				F89400781DE31EF800CAE22F /* GoogleTests.mm */,
+				F89400741DE31EDF00CAE22F /* Info.plist */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		F89400691DE31E1A00CAE22F /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				F894006A1DE31E2B00CAE22F /* imageViewer.cpp */,
+			);
+			name = Examples;
+			sourceTree = "<group>";
+		};
+		F89400701DE31EDE00CAE22F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F894006F1DE31EDE00CAE22F /* Tests.xctest */,
+				F89400881DE3330C00CAE22F /* ImageViewer */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F894011A1DE348B300CAE22F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F89401231DE3490800CAE22F /* CoreVideo.framework */,
+				F89401211DE348DE00CAE22F /* IOKit.framework */,
+				F894011F1DE348BF00CAE22F /* CoreGraphics.framework */,
+				F894011D1DE348B900CAE22F /* OpenGL.framework */,
+				F894011B1DE348B300CAE22F /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F894006E1DE31EDE00CAE22F /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F89400751DE31EDF00CAE22F /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				F894006B1DE31EDE00CAE22F /* Sources */,
+				F894006C1DE31EDE00CAE22F /* Frameworks */,
+				F894006D1DE31EDE00CAE22F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F89400831DE31F6400CAE22F /* PBXTargetDependency */,
+			);
+			name = Tests;
+			productName = Tests;
+			productReference = F894006F1DE31EDE00CAE22F /* Tests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		F89400871DE3330C00CAE22F /* ImageViewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F894008C1DE3330C00CAE22F /* Build configuration list for PBXNativeTarget "ImageViewer" */;
+			buildPhases = (
+				F89400841DE3330C00CAE22F /* Sources */,
+				F89400851DE3330C00CAE22F /* Frameworks */,
+				F89400861DE3330C00CAE22F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F89400B51DE338B100CAE22F /* PBXTargetDependency */,
+			);
+			name = ImageViewer;
+			productName = ImageViewer;
+			productReference = F89400881DE3330C00CAE22F /* ImageViewer */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F894003A1DE31CD600CAE22F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0810;
+				TargetAttributes = {
+					F894006E1DE31EDE00CAE22F = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
+					F89400871DE3330C00CAE22F = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F894003D1DE31CD600CAE22F /* Build configuration list for PBXProject "ImageStack" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F89400391DE31CD600CAE22F;
+			productRefGroup = F89400701DE31EDE00CAE22F /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F894004C1DE31D8100CAE22F /* Products */;
+					ProjectRef = F894004B1DE31D8100CAE22F /* gtest.xcodeproj */;
+				},
+				{
+					ProductGroup = F89400421DE31D4B00CAE22F /* Products */;
+					ProjectRef = F89400411DE31D4B00CAE22F /* VolViz.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				F894006E1DE31EDE00CAE22F /* Tests */,
+				F89400871DE3330C00CAE22F /* ImageViewer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F89400481DE31D4C00CAE22F /* libVolViz.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libVolViz.a;
+			remoteRef = F89400471DE31D4C00CAE22F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F894004A1DE31D4C00CAE22F /* VolVisualizer */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = VolVisualizer;
+			remoteRef = F89400491DE31D4C00CAE22F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F89400551DE31D8100CAE22F /* libgtest.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libgtest.a;
+			remoteRef = F89400541DE31D8100CAE22F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F89400571DE31D8100CAE22F /* libgtest_main.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libgtest_main.a;
+			remoteRef = F89400561DE31D8100CAE22F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F894006D1DE31EDE00CAE22F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F894006B1DE31EDE00CAE22F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F894007C1DE31F4400CAE22F /* testBSTLoader.cpp in Sources */,
+				F894007D1DE31F4600CAE22F /* testHostStorage.cpp in Sources */,
+				F894007E1DE31F4900CAE22F /* testImageStack.cpp in Sources */,
+				F894007F1DE31F4E00CAE22F /* testMultiIndex.cpp in Sources */,
+				F89400801DE31F5200CAE22F /* testMappedMemory.cpp in Sources */,
+				F89400791DE31EF800CAE22F /* GoogleTests.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F89400841DE3330C00CAE22F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F894008F1DE3332000CAE22F /* imageViewer.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F89400831DE31F6400CAE22F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = gtest;
+			targetProxy = F89400821DE31F6400CAE22F /* PBXContainerItemProxy */;
+		};
+		F89400B51DE338B100CAE22F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VolViz;
+			targetProxy = F89400B41DE338B100CAE22F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F894003E1DE31CD600CAE22F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES_AGGRESSIVE;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_PREPROCESSOR_DEFINITIONS = "XCODE_BUILD=1";
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_PEDANTIC = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/include";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/GSL/gsl",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/eigen",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/VolViz/include",
+				);
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/include/ImageStack";
+				WARNING_CFLAGS = (
+					"-Weverything",
+					"-Wno-c++98-compat",
+					"-Wno-c++98-compat-pedantic",
+				);
+			};
+			name = Debug;
+		};
+		F894003F1DE31CD600CAE22F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES_AGGRESSIVE;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_PREPROCESSOR_DEFINITIONS = "XCODE_BUILD=1";
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_PEDANTIC = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/include";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/GSL/gsl",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/eigen",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/VolViz/include",
+				);
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/include/ImageStack";
+				WARNING_CFLAGS = (
+					"-Weverything",
+					"-Wno-c++98-compat",
+					"-Wno-c++98-compat-pedantic",
+				);
+			};
+			name = Release;
+		};
+		F89400761DE31EDF00CAE22F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"TEST_DATA_DIR=\\\"$(SRCROOT)/Data\\\"",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"$(inherited)",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/googletest/googletest/include",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sreinhold.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F89400771DE31EDF00CAE22F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"XCODE_BUILD=1",
+					"NDBEUG=1",
+					"TEST_DATA_DIR=\\\"$(SRCROOT)/Data\\\"",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"$(inherited)",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/googletest/googletest/include",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sreinhold.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F894008D1DE3330C00CAE22F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/include",
+					"$(SRCROOT)/Dependencies/VolViz/include/**",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/GSL/gsl",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/eigen",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/VolViz/include",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/VolViz/Dependencies/PhysUnits",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F894008E1DE3330C00CAE22F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/include",
+					"$(SRCROOT)/Dependencies/VolViz/include/**",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/GSL/gsl",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/eigen",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/VolViz/include",
+					"-isystem",
+					"$(SRCROOT)/Dependencies/VolViz/Dependencies/PhysUnits",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F894003D1DE31CD600CAE22F /* Build configuration list for PBXProject "ImageStack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F894003E1DE31CD600CAE22F /* Debug */,
+				F894003F1DE31CD600CAE22F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F89400751DE31EDF00CAE22F /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F89400761DE31EDF00CAE22F /* Debug */,
+				F89400771DE31EDF00CAE22F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F894008C1DE3330C00CAE22F /* Build configuration list for PBXNativeTarget "ImageViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F894008D1DE3330C00CAE22F /* Debug */,
+				F894008E1DE3330C00CAE22F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F894003A1DE31CD600CAE22F /* Project object */;
+}
