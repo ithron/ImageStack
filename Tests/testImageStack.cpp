@@ -92,8 +92,11 @@ TYPED_TEST(ImageStackTest, CreateEmpty) {
   ASSERT_EQ(Size3(0, 0, 0), is.size());
   ASSERT_EQ(0, is.numSlices());
   ASSERT_TRUE(is.uniqueValues().empty());
-
+  
+  ::testing::FLAGS_gtest_death_test_style = "threadsafe";
+#ifndef XCODE_BUILD // Death tests somehow doe not work with xcode test
   ASSERT_DEATH(is.map(), "");
+#endif
 }
 
 /// Creates an ImageStack<> instance by using DummyLoader and test if

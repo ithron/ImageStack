@@ -27,7 +27,10 @@ TEST(HostStorage, CreateEmpty) {
   ASSERT_EQ(0, store.linearSize());
   ASSERT_EQ(Size3::Zero(), store.size());
 
+  ::testing::FLAGS_gtest_death_test_style = "threadsafe";
+#ifndef XCODE_BUILD // Death tests somehow doe not work with xcode test
   ASSERT_DEATH({ store.map(); }, "");
+#endif
 }
 
 /// Creates an uninitialized HostStorage<int> object and tests if

@@ -1,4 +1,11 @@
-#include "config.h"
+
+// clang-format off
+#ifndef XCODE_BUILD
+#  include "config.h"
+#else
+  static constexpr char kTestDataDir[] = TEST_DATA_DIR;
+#endif
+// clang-format on
 
 #include <ImageStack/ImageStack.h>
 #include <ImageStack/ImageStackLoaderBST.h>
