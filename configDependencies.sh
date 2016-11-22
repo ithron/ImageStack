@@ -24,7 +24,8 @@ if [ ! -d "$PROJECT_ROOT/Dependencies/build/googletest" ]; then
   cd $PROJECT_ROOT/Dependencies/build
   mkdir -p googletest
   cd googletest
-  cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_GTEST=On -DBUILD_GMOCK=Off -GXcode ../../googletest
+  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CONFIGURATION_TYPES="Release" \
+    -DBUILD_GTEST=On -DBUILD_GMOCK=Off -GXcode ../../googletest
 else
   echo Skip googletest
 fi
