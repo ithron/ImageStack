@@ -40,6 +40,36 @@ template <class Type> struct ContainsType<Type> : public std::false_type {};
 /// @brief Alias for ContainsType<>::type
 template <class T> using ContainsType_t = typename ContainsType<T>::type;
 
+/// @brief Type trait to check if a given type is model of Container
+/// @ingroup TypeTraits
+template <class T> class IsContainer {
+
+  template <
+      class S,
+      typename = std::enable_if_t<
+          std::is_convertible<typename S::size_type,
+                              decltype(std::declval<S>().size())>::value &&
+          std::is_convertible<typename S::value_type,
+                              std::remove_reference_t<decltype(
+                                  *std::declval<S>().begin())>>::value>>
+  static constexpr std::true_type check(S *) {
+    return std::true_type{};
+  }
+
+  template <class> static constexpr std::false_type check(...) {
+    return std::false_type{};
+  }
+
+  using type = decltype(check<T>(0));
+
+public:
+  static constexpr bool value = type::value;
+};
+
+/// @brief Alias for `IsContainer<T>::value`
+/// @ingroup TypeTraits
+template <class T> constexpr bool isContainer_v = IsContainer<T>::value;
+
 /// @}
 
 } // namespace ImageStack
