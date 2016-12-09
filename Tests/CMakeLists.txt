@@ -28,3 +28,7 @@ add_test(TestImageStack TestImageStack)
 add_executable(TestBSTLoader testBSTLoader.cpp)
 target_link_libraries(TestBSTLoader PRIVATE ImageStack GTest)
 add_test(TestBSTLoader TestBSTLoader)
+
+add_executable(TestSampler testSampler.cpp)
+target_link_libraries(TestSampler PRIVATE ImageStack GTest)
+add_test(TestSampler TestSampler)
