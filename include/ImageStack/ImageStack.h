@@ -123,7 +123,7 @@ struct HasDecorator<ImageStack<T, S, _D...>, D>
 
 /// @brief Alias for HasDecorator<>::value
 template <class T, class D>
-constexpr bool hasDecorator_v = HasDecorator<T, D>::type;
+constexpr bool hasDecorator_v = HasDecorator<T, D>::value;
 
 /// @}
 
