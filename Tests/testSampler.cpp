@@ -44,7 +44,8 @@ TEST(Sampler, BasicSampler) {
   ImgLoader loader(ascendingImageFile);
   Img const img(loader);
 
-  BasicSampler<float> const sampler(INFINITY);
+  Sampler<> sampler;
+  sampler.outside = std::numeric_limits<double>::infinity();
 
   ASSERT_FALSE(std::isfinite(sampler(img, SIndex3(-1, -1, -1))));
   ASSERT_FALSE(std::isfinite(sampler(img, SIndex3(0, 0, -1))));
@@ -77,19 +78,23 @@ TEST(Sampler, BasicSampler) {
 }
 
 TEST(Sampler, ResolutionSampler) {
+  using RIdx = Eigen::Vector3d;
   ImgLoader loader(ascendingImageFile);
   Img const img(loader);
 
-  ResolutionSampler<BasicSampler<float>> const sampler(INFINITY);
+  using ResolutionSampler = Sampler<CoordTransform::ResolutionScale>;
 
-  ASSERT_FALSE(std::isfinite(sampler(img, SIndex3(-1, -1, -1))));
-  ASSERT_FALSE(std::isfinite(sampler(img, SIndex3(0, 0, -1))));
-  ASSERT_FALSE(std::isfinite(
-      sampler(img, SIndex3(0, narrow_cast<SIndex>(img.size()(1)), 0))));
-  ASSERT_FALSE(std::isfinite(
-      sampler(img, SIndex3(narrow_cast<SIndex>(img.size()(1) + 100), 0, 0))));
+  ResolutionSampler sampler;
+  sampler.outside = std::numeric_limits<double>::infinity();
 
   auto const res = ascendingImageResolution;
+
+  ASSERT_FALSE(std::isfinite(sampler(img, -res)));
+  ASSERT_FALSE(std::isfinite(sampler(img, RIdx(0, 0, -res(2)))));
+  ASSERT_FALSE(std::isfinite(
+      sampler(img, RIdx(0, res(1) * img.size()(1), 20.0 * res(2)))));
+  ASSERT_FALSE(std::isfinite(
+      sampler(img, res.cwiseProduct(RIdx(img.size()(1) + 100, 0, 0)))));
 
   std::vector<float> refValues;
   std::vector<Eigen::Vector3d> indices;
