@@ -239,9 +239,9 @@ public:
     using ResultType =
         std::decay_t<decltype(at(img, img.map(), *positions.begin()))>;
 
-    std::vector<ResultType> results(positions.size());
+    Eigen::Matrix<ResultType, Eigen::Dynamic, 1> results(positions.size());
 
-    operator()(img, positions.begin(), positions.end(), results.begin());
+    operator()(img, positions.begin(), positions.end(), results.data());
 
     return results;
   }

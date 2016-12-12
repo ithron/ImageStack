@@ -73,7 +73,7 @@ TEST(Sampler, BasicSampler) {
 
   auto const values = sampler(img, indices);
 
-  for (Size i = 0; i < values.size(); ++i)
+  for (long i = 0; i < values.size(); ++i)
     ASSERT_FLOAT_EQ(refValues[i], values[i]);
 }
 
@@ -116,6 +116,6 @@ TEST(Sampler, ResolutionSampler) {
 
   auto const values = sampler(img, indices);
 
-  for (Size i = 0; i < values.size(); ++i)
+  for (long i = 0; i < values.size(); ++i)
     ASSERT_FLOAT_EQ(refValues[i], values[i]);
 }
