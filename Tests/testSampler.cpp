@@ -44,7 +44,7 @@ TEST(Sampler, BasicSampler) {
   ImgLoader loader(ascendingImageFile);
   Img const img(loader);
 
-  Sampler<> sampler;
+  ::ImageStack::Sampler::Sampler<> sampler;
   sampler.outside = std::numeric_limits<double>::infinity();
 
   ASSERT_FALSE(std::isfinite(sampler(img, SIndex3(-1, -1, -1))));
@@ -82,7 +82,8 @@ TEST(Sampler, ResolutionSampler) {
   ImgLoader loader(ascendingImageFile);
   Img const img(loader);
 
-  using ResolutionSampler = Sampler<CoordTransform::ResolutionScale>;
+  using ResolutionSampler =
+      ::ImageStack::Sampler::Sampler<CoordTransform::ResolutionScale>;
 
   ResolutionSampler sampler;
   sampler.outside = std::numeric_limits<double>::infinity();
