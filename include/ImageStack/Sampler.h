@@ -168,7 +168,8 @@ struct FixedValue {
     static_assert(std::is_integral<typename Derived::Scalar>::value,
                   "Coordinates must be integral");
 
-    auto const size = img.size().template cast<typename Derived::Scalar>();
+    auto const size =
+        img.size().template cast<typename Derived::Scalar>().eval();
     if (pos(0) < 0 || pos(0) >= size(0) || pos(1) < 0 || pos(1) >= size(1) ||
         pos(2) < 0 || pos(2) >= size(2)) {
       return static_cast<S>(outside);
@@ -183,8 +184,7 @@ struct FixedValue {
 namespace ValueTransform {
 
 struct Identity {
-  template <class T>
-  inline decltype(auto) transformValue(T const &v) const noexcept {
+  template <class T> inline auto transformValue(T const &v) const noexcept {
     return v;
   }
 };
