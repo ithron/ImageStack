@@ -119,6 +119,7 @@ private:
     V3 const pd = (pos - p0.template cast<Scalar>());
 
 #pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
 #pragma clang diagnostic ignored "-Wdouble-promotion"
     // Interpolate along x-axis
     auto const v00 = this->value(img, map, p0) * (1.0 - pd(0)) +
