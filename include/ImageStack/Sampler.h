@@ -222,7 +222,9 @@ public:
                          OutputIterator out) const {
     auto const map = img.map();
 
-    for (auto i = begin; i != end; ++i, ++out) *out = at(img, map, *i);
+    std::transform(begin, end, out, [this, &img, &map](auto const &x) {
+      return this->at(img, map, x);
+    });
   }
 
   template <class T, template <class> class Storage, class... Decorators,
