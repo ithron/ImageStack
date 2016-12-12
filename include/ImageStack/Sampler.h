@@ -239,7 +239,8 @@ public:
     using ResultType =
         std::decay_t<decltype(at(img, img.map(), *positions.begin()))>;
 
-    Eigen::Matrix<ResultType, Eigen::Dynamic, 1> results(positions.size());
+    Eigen::Matrix<ResultType, Eigen::Dynamic, 1> results(
+        narrow_cast<long>(positions.size()));
 
     operator()(img, positions.begin(), positions.end(), results.data());
 
