@@ -121,9 +121,9 @@ template <class D, class T, template <class> class S, class... _D>
 struct HasDecorator<ImageStack<T, S, _D...>, D>
     : public ContainsType<D, _D...> {};
 
-/// @brief Alias for HasDecorator<>::type
+/// @brief Alias for HasDecorator<>::value
 template <class T, class D>
-constexpr bool HasDecorator_t = HasDecorator<T, D>::type;
+constexpr bool hasDecorator_v = HasDecorator<T, D>::value;
 
 /// @}
 

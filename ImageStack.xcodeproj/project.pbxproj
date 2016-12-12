@@ -20,6 +20,7 @@
 		F894011E1DE348B900CAE22F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F894011D1DE348B900CAE22F /* OpenGL.framework */; };
 		F89401221DE348DE00CAE22F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89401211DE348DE00CAE22F /* IOKit.framework */; };
 		F89401241DE3490800CAE22F /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89401231DE3490800CAE22F /* CoreVideo.framework */; };
+		F8F1A3E01DFEAC39002CD6BB /* testSampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8F1A3DF1DFEAC39002CD6BB /* testSampler.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +56,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = F894004B1DE31D8100CAE22F /* gtest.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = BDE5C20EF80A4BA9AC7113DF;
+			remoteGlobalIDString = 22DA757137E1455D86196171;
 			remoteInfo = gtest;
 		};
 		F89400B41DE338B100CAE22F /* PBXContainerItemProxy */ = {
@@ -107,6 +108,8 @@
 		F894011F1DE348BF00CAE22F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		F89401211DE348DE00CAE22F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		F89401231DE3490800CAE22F /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		F8F1A3DF1DFEAC39002CD6BB /* testSampler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = testSampler.cpp; path = Tests/testSampler.cpp; sourceTree = "<group>"; };
+		F8F1A3E11DFEAC61002CD6BB /* Sampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sampler.h; path = include/ImageStack/Sampler.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +180,7 @@
 			children = (
 				F89400591DE31DE400CAE22F /* ImageStackLoaderBST.h */,
 				F894005A1DE31DE400CAE22F /* MappedMemory.h */,
+				F8F1A3E11DFEAC61002CD6BB /* Sampler.h */,
 				F894005B1DE31DE400CAE22F /* Types.h */,
 				F894005C1DE31DE400CAE22F /* ImageStack.h */,
 				F894005D1DE31DE400CAE22F /* HostStorage.h */,
@@ -197,6 +201,7 @@
 				F89400661DE31E0F00CAE22F /* testImageStack.cpp */,
 				F89400671DE31E0F00CAE22F /* testMultiIndex.cpp */,
 				F89400681DE31E0F00CAE22F /* testMappedMemory.cpp */,
+				F8F1A3DF1DFEAC39002CD6BB /* testSampler.cpp */,
 				F89400781DE31EF800CAE22F /* GoogleTests.mm */,
 				F89400741DE31EDF00CAE22F /* Info.plist */,
 			);
@@ -364,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F894007C1DE31F4400CAE22F /* testBSTLoader.cpp in Sources */,
+				F8F1A3E01DFEAC39002CD6BB /* testSampler.cpp in Sources */,
 				F894007D1DE31F4600CAE22F /* testHostStorage.cpp in Sources */,
 				F894007E1DE31F4900CAE22F /* testImageStack.cpp in Sources */,
 				F894007F1DE31F4E00CAE22F /* testMultiIndex.cpp in Sources */,
@@ -739,6 +745,7 @@
 				F89400771DE31EDF00CAE22F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F894008C1DE3330C00CAE22F /* Build configuration list for PBXNativeTarget "ImageViewer" */ = {
 			isa = XCConfigurationList;
@@ -747,6 +754,7 @@
 				F894008E1DE3330C00CAE22F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

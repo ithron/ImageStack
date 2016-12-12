@@ -102,4 +102,12 @@ private:
   std::vector<T> storage_;
 };
 
+template <template <class> class T>
+struct IsHostStorage : public std::false_type {};
+
+template <> struct IsHostStorage<HostStorage> : public std::true_type {};
+
+template <template <class> class T>
+constexpr bool isHostStorage_v = IsHostStorage<T>::value;
+
 } // namespace ImageStack
