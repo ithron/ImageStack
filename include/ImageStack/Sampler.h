@@ -201,7 +201,9 @@ class Sampler : public CoordTransform,
 public:
   template <class T, template <class> class Storage, class... Decorators,
             class Derived,
-            typename = std::enable_if_t<isHostStorage_v<Storage>>>
+            typename = std::enable_if_t<isHostStorage_v<Storage> &&
+                                        (Derived::RowsAtCompileTime == 1 ||
+                                         Derived::ColsAtCompileTime == 1)>>
   inline decltype(auto)
   operator()(ImageStack<T, Storage, Decorators...> const &img,
              Eigen::MatrixBase<Derived> const &pos) const {
@@ -226,6 +228,27 @@ public:
     std::transform(begin, end, out, [this, &img, &map](auto const &x) {
       return this->at(img, map, x);
     });
+  }
+
+  template <class T, template <class> class Storage, class... Decorators,
+            class Derived,
+            typename = std::enable_if_t<isHostStorage_v<Storage> &&
+                                        (Derived::RowsAtCompileTime == 3 &&
+                                         Derived::ColsAtCompileTime != 1)>>
+  inline auto operator()(ImageStack<T, Storage, Decorators...> const &img,
+                         Eigen::MatrixBase<Derived> const &positions) const {
+
+    using ResultType =
+        std::decay_t<decltype(at(img, img.map(), positions.col(0)))>;
+
+    auto const map = img.map();
+    Eigen::Matrix<ResultType, Eigen::Dynamic, 1> values(positions.cols());
+
+    for (long j = 0; j < positions.cols(); ++j) {
+      values(j) = this->at(img, map, positions.col(j));
+    }
+
+    return values;
   }
 
   template <class T, template <class> class Storage, class... Decorators,

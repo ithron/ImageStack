@@ -1,6 +1,7 @@
 #pragma once
 
 #include "HostStorage.h"
+#include "ImageStackLoader.h"
 #include "MultiIndex.h"
 #include "Types.h"
 
@@ -32,7 +33,7 @@ public:
   inline ImageStack() noexcept : storage_(Size3::Zero()) {}
 
   /// @brief Loads an image stack using the given loader
-  template <class Loader>
+  template <class Loader, typename = std::enable_if_t<isLoader_v<Loader>>>
   explicit ImageStack(Loader &&loader)
       : Decorators(std::forward<Loader>(loader))..., storage_(loader.size()) {
 

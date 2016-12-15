@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BinaryStream.h"
+#include "ImageStackLoader.h"
 #include "Types.h"
 
 #include <algorithm>
@@ -50,7 +51,9 @@ template <typename T> constexpr T ntohT(T value) noexcept {
 /// @tparam ImageStack_ ImageStack type to load the data for
 /// @tparam IsMask bool value indicating if the loader should load a mask
 ///(true) or an image (false).
-template <class ImageStack_, bool IsMask = false> class ImageStackLoaderBST {
+template <class ImageStack_, bool IsMask = false>
+class ImageStackLoaderBST
+    : public ImageStackLoaderBase<ImageStackLoaderBST<ImageStack_, IsMask>> {
   enum class State { Initialized, HeaderRead };
 
 public:
