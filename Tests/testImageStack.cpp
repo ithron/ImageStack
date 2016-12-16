@@ -33,7 +33,7 @@ template <class D, class S> constexpr auto valueCast(S const &s) noexcept {
 }
 
 /// @brief dummy loader that fills the image with values
-class DummyLoader {
+class DummyLoader : public ImageStackLoaderBase<DummyLoader> {
 public:
   constexpr auto size() const { return std::array<Size, 3>{{42, 23, 5}}; }
 
@@ -92,7 +92,7 @@ TYPED_TEST(ImageStackTest, CreateEmpty) {
   ASSERT_EQ(Size3(0, 0, 0), is.size());
   ASSERT_EQ(0, is.numSlices());
   ASSERT_TRUE(is.uniqueValues().empty());
-  
+
   ::testing::FLAGS_gtest_death_test_style = "threadsafe";
 #ifndef XCODE_BUILD // Death tests somehow doe not work with xcode test
   ASSERT_DEATH(is.map(), "");
