@@ -16,6 +16,12 @@
 #  if !defined(__LITTLE_ENDIAN__) && !defined(__BIG_ENDIAN__)
 #    error Unsupported byte order
 #  endif
+#elif _WIN32
+#if defined(_M_IX86) || defined(_M_X64)
+#define __LITTLE_ENDIAN__
+#else
+#error Unknown platform
+#endif
 #else
 #  include <endian.h>
 #  if (__BYTE_ORDER == __LITTLE_ENDIAN) && !defined(__LITTLE_ENDIAN__)
