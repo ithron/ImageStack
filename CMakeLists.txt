@@ -21,8 +21,6 @@ set(DEFAULT_COMPILE_FEATURES
   cxx_auto_type
   cxx_binary_literals
   cxx_constexpr
-  cxx_contextual_conversions
-  cxx_decltype_incomplete_return_types
   cxx_decltype
   cxx_decltype_auto
   cxx_default_function_template_args
@@ -100,11 +98,13 @@ target_include_directories(ImageStack INTERFACE
 
 add_library(ImageStack::ImageStack ALIAS ImageStack)
 
-option(BUILD_TESTING "Build tests" ON)
-if(BUILD_TESTING)
-  enable_testing()
-  include(ImportGTest)
-  add_subdirectory(Tests)
+if (NOT MSVC)
+  option(BUILD_TESTING "Build tests" ON)
+  if(BUILD_TESTING)
+	enable_testing()
+	include(ImportGTest)
+	add_subdirectory(Tests)
+  endif()
 endif()
 
 option(BUILD_EXAMPLES "Build examples" ON)
