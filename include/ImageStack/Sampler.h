@@ -179,6 +179,41 @@ struct FixedValue {
   }
 };
 
+struct QuadraticScaledDistanceValue : public FixedValue {
+
+  double distanceScale{1.0};
+  double intercept{0.0};
+
+  template <class S, template <class> class Storage, class... Decorators,
+            class Map, class Derived,
+            typename = std::enable_if_t<isHostStorage_v<Storage> &&
+                                        std::is_arithmetic<S>::value>>
+  inline auto value(ImageStack<S, Storage, Decorators...> const &img,
+                    Map const &map,
+                    Eigen::MatrixBase<Derived> const &pos) const {
+
+    static_assert(std::is_integral<typename Derived::Scalar>::value,
+                  "Coordinates must be integral");
+
+    auto const size =
+        img.size().template cast<typename Derived::Scalar>().eval();
+    if (pos(0) < 0 || pos(0) >= size(0) || pos(1) < 0 || pos(1) >= size(1) ||
+        pos(2) < 0 || pos(2) >= size(2)) {
+
+      Eigen::Matrix<typename Derived::Scalar, 3, 1> const diff{
+          pos(0) < 0 ? -pos(0) : std::max(size(0), pos(0)) - size(0),
+          pos(1) < 0 ? -pos(1) : std::max(size(1), pos(1)) - size(1),
+          pos(2) < 0 ? -pos(2) : std::max(size(2), pos(2)) - size(2)};
+
+      auto const scaledDistance = distanceScale * diff.norm();
+      return static_cast<S>(
+          intercept + FixedValue::outside * scaledDistance * scaledDistance);
+    }
+
+    return map[pos.template cast<Index>()];
+  }
+};
+
 } // namespace BorderPolicy
 
 namespace ValueTransform {
