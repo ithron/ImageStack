@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Eigen/Core>
-#include <gsl>
+#include <gsl/gsl>
 
 namespace ImageStack {
 
