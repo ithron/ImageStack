@@ -63,6 +63,7 @@ if (("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" 
     -Wno-c++98-compat-bind-to-temporary-copy
     -Wno-c++98-compat-pedantic
     -Qunused-arguments
+    -Wno-unknown-warning-option
   )
   if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.5)
     set(DEFAULT_COMPILER_OPTIONS
