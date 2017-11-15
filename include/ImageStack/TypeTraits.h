@@ -10,10 +10,24 @@ namespace ImageStack {
 /// @defgroup TypeTraits Type Traits
 /// @{
 
-/// @brief Type traits class to check if a given type is a Eigen matrix
 template <class T>
-constexpr bool isEigenMatrix_v =
-    std::is_base_of<Eigen::MatrixBase<std::decay_t<T>>, std::decay_t<T>>::value;
+struct isEigenMatrix
+    : public std::integral_constant<
+          bool, std::is_base_of<Eigen::MatrixBase<std::decay_t<T>>,
+                                std::decay_t<T>>::value> {};
+
+template <class Derived>
+struct isEigenMatrix<Eigen::MatrixBase<Derived>> : public std::true_type {};
+template <class Derived>
+struct isEigenMatrix<Eigen::MatrixBase<Derived> &> : public std::true_type {};
+template <class Derived>
+struct isEigenMatrix<Eigen::MatrixBase<Derived> const &>
+    : public std::true_type {};
+template <class Derived>
+struct isEigenMatrix<Eigen::MatrixBase<Derived> &&> : public std::true_type {};
+
+/// @brief Type traits class to check if a given type is a Eigen matrix
+template <class T> constexpr bool isEigenMatrix_v = isEigenMatrix<T>::value;
 
 // Compile time tests
 static_assert(!isEigenMatrix_v<int>, "int is not an Eigen matrix type");
@@ -25,6 +39,8 @@ static_assert(isEigenMatrix_v<Eigen::Vector2i>,
               "Eigen::Vector2i is an Eigen matrix type");
 static_assert(isEigenMatrix_v<decltype(Eigen::Vector3i::Zero())>,
               "Eigen::Vector3i::Zero() is an Eigen matrix type");
+static_assert(isEigenMatrix_v<Eigen::MatrixBase<Eigen::Vector3d>>,
+              "Eigen::Vector3d is an Eigen matrix type");
 
 /// @brief Checks if a template argument list contains a given type
 template <class Type, class... Types>
