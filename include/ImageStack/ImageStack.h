@@ -32,6 +32,11 @@ public:
   /// @brief Create an empty image stack
   inline ImageStack() noexcept : storage_(Size3::Zero()) {}
 
+  /// @brief Crates an image initialized with the given value
+  template <class Size>
+  inline ImageStack(Size &&size, T const &init)
+      : storage_(std::forward<Size>(size), init) {}
+
   /// @brief Loads an image stack using the given loader
   template <class Loader, typename = std::enable_if_t<isLoader_v<Loader>>>
   explicit ImageStack(Loader &&loader)
