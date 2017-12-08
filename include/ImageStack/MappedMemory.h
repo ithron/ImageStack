@@ -49,7 +49,7 @@ public:
                                         std::is_convertible<Idx, Size>::value>>
   inline T &operator[](Idx const &i) {
     // Bounds checking is done in gsl::span
-    return memory_[toLinear(i, size_)];
+    return memory_[narrow_cast<long>(toLinear(i, size_))];
   }
 
   /// @brief Returns the linear size of the mapped memory region
