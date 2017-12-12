@@ -85,21 +85,23 @@ endif()
 set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-add_library(OpenMP INTERFACE IMPORTED)
+if (NOT TARGET OpenMP)
+  add_library(OpenMP INTERFACE IMPORTED)
 
-find_package(OpenMP)
-if (OPENMP_FOUND)
-  message(STATUS "OpenMP found")
-  option(WITH_OPENMP "Use OpenMP" NO)
-  if (WITH_OPENMP)
-    set_property(TARGET OpenMP PROPERTY INTERFACE_COMPILE_OPTIONS
-      ${OpenMP_C_FLAGS}
-    )
-    if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-      set_property(TARGET OpenMP APPEND PROPERTY INTERFACE_COMPILE_OPTIONS
-        -Wno-source-uses-openmp
-        -fopenmp-use-tls
+  find_package(OpenMP)
+  if (OPENMP_FOUND)
+    message(STATUS "OpenMP found")
+    option(WITH_OPENMP "Use OpenMP" NO)
+    if (WITH_OPENMP)
+      set_property(TARGET OpenMP PROPERTY INTERFACE_COMPILE_OPTIONS
+        ${OpenMP_C_FLAGS}
       )
+      if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+        set_property(TARGET OpenMP APPEND PROPERTY INTERFACE_COMPILE_OPTIONS
+          -Wno-source-uses-openmp
+          -fopenmp-use-tls
+        )
+      endif()
     endif()
   endif()
 endif()
