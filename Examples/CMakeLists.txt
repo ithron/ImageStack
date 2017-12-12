@@ -7,5 +7,5 @@ if (NOT TARGET VolViz::VolViz)
 endif()
 
 add_executable(ImageViewer imageViewer.cpp)
-target_link_libraries(ImageViewer PRIVATE ImageStack VolViz::VolViz)
+target_link_libraries(ImageViewer PRIVATE ImageStack VolViz::VolViz OpenMP)
 
