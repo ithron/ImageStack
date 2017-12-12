@@ -53,12 +53,13 @@ struct Dims<T[N]> : public std::integral_constant<std::size_t, N> {};
 
 // Dims<> overload for Eigen vectors
 template <class Derived>
-struct Dims<Derived, std::enable_if_t<isEigenMatrix_v<Derived> &&
-                                      (Derived::RowsAtCompileTime == 1 ||
-                                       Derived::ColsAtCompileTime == 1)>>
-    : public std::integral_constant<std::size_t,
-                                    std::max(Derived::RowsAtCompileTime,
-                                             Derived::ColsAtCompileTime)> {};
+struct Dims<Derived,
+            std::enable_if_t<isEigenMatrix_v<std::decay_t<Derived>> &&
+                             (std::decay_t<Derived>::RowsAtCompileTime == 1 ||
+                              std::decay_t<Derived>::ColsAtCompileTime == 1)>>
+    : public std::integral_constant<
+          std::size_t, std::max(std::decay_t<Derived>::RowsAtCompileTime,
+                                std::decay_t<Derived>::ColsAtCompileTime)> {};
 
 /// Alias for Dims::value
 template <class T> constexpr std::size_t dims_v = Dims<T>::value;
@@ -147,8 +148,9 @@ toLinearReorder(I const &i, S const &s,
 /// @param i multi index to convert
 /// @param s tuple containing the size of each dimension
 /// @return linear representation of the multi index i
-template <class I, class S, typename = std::enable_if_t<
-                                isModelOfMultiIndex_v<I> &&
+template <
+    class I, class S,
+    typename = std::enable_if_t<isModelOfMultiIndex_v<I> &&
                                 (isModelOfMultiIndex_v<S> | (dims_v<I> == 1))>>
 constexpr std::size_t
 toLinear(I const &i, S const &s) noexcept(noexcept(i[0]) && noexcept(s[0])) {
