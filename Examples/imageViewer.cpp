@@ -1,3 +1,4 @@
+#include <ImageStack/GaussFilter.h>
 #include <ImageStack/ImageStack.h>
 #include <ImageStack/ImageStackLoaderBST.h>
 #include <ImageStack/ResolutionDecorator.h>
@@ -13,20 +14,37 @@ using Img = ::ImageStack::ImageStack<float, HostStorage, ResolutionDecorator>;
 using Loader = ::ImageStack::ImageStackLoaderBST<Img>;
 
 int main(int argc, char **argv) {
-  if (argc != 2 && argc != 4) {
-    std::cerr << "Usage: " << argv[0] << " image [min max]" << std::endl;
+  if (argc != 2 && argc != 4 && argc != 3 && argc != 5) {
+    std::cerr << "Usage: " << argv[0] << " image [[min max] sigma]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
   Range<float> range{0.f, 0.f};
+  float sigma{0};
 
-  if (argc == 4) {
+  if (argc == 4 || argc == 5) {
     range.min = narrow<float>(atof(argv[2]));
     range.max = narrow<float>(atof(argv[3]));
   }
+  if (argc == 3) {
+    sigma = narrow_cast<float>(atof(argv[2]));
+  } else if (argc == 5) {
+    sigma = narrow_cast<float>(atof(argv[4]));
+  }
 
   try {
-    Img const img((Loader(argv[1])));
+    Img const img = [argv, &sigma]() {
+      Img const imgOrig((Loader(argv[1])));
+      if (sigma == .0f) return imgOrig;
+      Vector3f const res = resolution(imgOrig).template cast<float>();
+      auto const filter = Filter::GaussFilter<float>{sigma * res};
+      std::cout << "Using filter size " << filter.size().transpose()
+                << std::endl;
+      Img image = Filter::filter(imgOrig, filter);
+      image.resolution = res.template cast<double>();
+      return image;
+    }();
 
     Visualizer viewer;
 
