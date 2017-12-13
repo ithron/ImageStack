@@ -50,7 +50,7 @@ public:
           auto const x = SIndex3{i, j, k}.template cast<T>().eval();
           weights((j + K[1]) * narrow_cast<long>(size_[0]) + i + K[0],
                   k + K[2]) =
-              exp(-T{0.5} * x.transpose() * sigmaSqInv.asDiagonal() * x);
+              static_cast<T>(exp(-T{0.5} * x.transpose() * sigmaSqInv.asDiagonal() * x));
         }
       }
     }
