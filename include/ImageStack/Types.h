@@ -18,4 +18,6 @@ using SIndex3 = Eigen::Matrix<SIndex, 3, 1>;
 
 using Eigen::Dynamic;
 
+struct ParallelTag {};
+
 } // namespace ImageStack
