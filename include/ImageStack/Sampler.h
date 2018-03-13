@@ -133,8 +133,9 @@ private:
     auto const v11 =
         this->value(img, map, p0 + SIndex3::UnitY() + SIndex3::UnitZ()) *
             (1.0 - pd(0)) +
-        this->value(img, map, p0 + SIndex3::UnitY() + SIndex3::UnitZ() +
-                                  SIndex3::UnitX()) *
+        this->value(img, map,
+                    p0 + SIndex3::UnitY() + SIndex3::UnitZ() +
+                        SIndex3::UnitX()) *
             pd(0);
 
     // interpoalte along y-axis
@@ -206,8 +207,8 @@ struct QuadraticScaledDistanceValue : public FixedValue {
           pos(2) < 0 ? -pos(2) : std::max(size(2), pos(2)) - size(2)};
 
       auto const scaledDistance = distanceScale * diff.norm();
-      return static_cast<S>(
-          intercept + FixedValue::outside * scaledDistance * scaledDistance);
+      return static_cast<S>(intercept + FixedValue::outside * scaledDistance *
+                                            scaledDistance);
     }
 
     return map[pos.template cast<Index>()];
@@ -263,6 +264,37 @@ public:
     std::transform(begin, end, out, [this, &img, &map](auto const &x) {
       return this->at(img, map, x);
     });
+  }
+
+  template <class T, template <class> class Storage, class... Decorators,
+            class InputIterator, class OutputIterator,
+            typename = std::enable_if_t<
+                isHostStorage_v<Storage> &&
+                std::is_base_of<std::input_iterator_tag,
+                                typename std::iterator_traits<
+                                    InputIterator>::iterator_category>::value>>
+  inline void operator()(ImageStack<T, Storage, Decorators...> const &img,
+                         InputIterator begin, InputIterator end,
+                         OutputIterator out, ParallelTag) const {
+    auto const map = img.map();
+
+    static_assert(
+        std::is_base_of<std::random_access_iterator_tag,
+                        typename std::iterator_traits<
+                            InputIterator>::iterator_category>::value,
+        "Function overload only available for random access iterators");
+
+    auto const N = std::distance(begin, end);
+
+    std::vector<std::decay_t<decltype(at(img, map, *begin))>> samples(
+        narrow<Size>(N));
+
+#pragma omp parallel for
+    for (std::remove_const_t<decltype(N)> i = 0; i < N; ++i) {
+      samples[narrow_cast<Size>(i)] = at(img, map, *(begin + i));
+    }
+
+    std::copy(samples.cbegin(), samples.cend(), out);
   }
 
   template <class T, template <class> class Storage, class... Decorators,
