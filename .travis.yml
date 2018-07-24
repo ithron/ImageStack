@@ -32,21 +32,21 @@ env:
 
 matrix:
   include:
-    - os: osx
-      env: BUILD_TYPE=Debug
-      osx_image: xcode7.3
-
-    - os: osx
-      env: BUILD_TYPE=Release
-      osx_image: xcode7.3
-
-    - os: osx
-      env: BUILD_TYPE=Debug
-      osx_image: xcode8
-
-    - os: osx
-      env: BUILD_TYPE=Release
-      osx_image: xcode8
+    # - os: osx
+    #   env: BUILD_TYPE=Debug
+    #   osx_image: xcode7.3
+    #
+    # - os: osx
+    #   env: BUILD_TYPE=Release
+    #   osx_image: xcode7.3
+    #
+    # - os: osx
+    #   env: BUILD_TYPE=Debug
+    #   osx_image: xcode8
+    #
+    # - os: osx
+    #   env: BUILD_TYPE=Release
+    #   osx_image: xcode8
 
     - os: linux
       dist: trusty
