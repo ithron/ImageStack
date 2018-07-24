@@ -1,15 +1,6 @@
-[submodule "Dependencies/googletest"]
-	path = Dependencies/googletest
-	url = https://github.com/google/googletest.git
-[submodule "Dependencies/GSL"]
-	path = Dependencies/GSL
-	url = https://github.com/Microsoft/GSL.git
 [submodule "Dependencies/VolViz"]
 	path = Dependencies/VolViz
 	url = https://github.com/ithron/VolViz.git
 [submodule "Dependencies/xcode-googletest"]
 	path = Dependencies/xcode-googletest
 	url = https://github.com/mattstevens/xcode-googletest.git
-[submodule "Dependencies/eigen"]
-	path = Dependencies/eigen
-	url = git@github.com:ithron/eigen.git

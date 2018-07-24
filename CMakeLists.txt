@@ -1,4 +1,12 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/HunterGate.cmake)
+
+HunterGate(
+  URL "https://github.com/ruslo/hunter/archive/v0.23.1.tar.gz"
+  SHA1 "51d2d6be411251c8de18c4ca20ef778880cf4cce"
+)
+
 project(ImageStack VERSION 0.1.0 LANGUAGES C CXX)
 
 if (NOT TARGET doc)
@@ -107,14 +115,18 @@ if (NOT TARGET OpenMP)
   endif()
 endif()
 
-include(ImportGSL)
+hunter_add_package(Microsoft.GSL)
+find_package(Microsoft.GSL CONFIG REQUIRED)
+
+hunter_add_package(Eigen)
+find_package(Eigen3 CONFIG REQUIRED)
+
 include(ImportMKL)
-include(ImportEigen)
 
 add_library(ImageStack INTERFACE)
 target_compile_features(ImageStack INTERFACE ${DEFAULT_COMPILE_FEATURES})
 target_compile_options(ImageStack INTERFACE ${DEFAULT_COMPILER_OPTIONS})
-target_link_libraries(ImageStack INTERFACE GSL Eigen)
+target_link_libraries(ImageStack INTERFACE Microsoft.GSL::GSL Eigen3::Eigen)
 target_include_directories(ImageStack INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
@@ -124,9 +136,11 @@ add_library(ImageStack::ImageStack ALIAS ImageStack)
 if (NOT MSVC)
   option(BUILD_TESTING "Build tests" ON)
   if(BUILD_TESTING)
-	enable_testing()
-	include(ImportGTest)
-	add_subdirectory(Tests)
+  enable_testing()
+
+  hunter_add_package(GTest)
+  find_package(GTest CONFIG REQUIRED)
+  add_subdirectory(Tests)
   endif()
 endif()
 
