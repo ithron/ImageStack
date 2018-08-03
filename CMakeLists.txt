@@ -8,7 +8,7 @@ HunterGate(
   LOCAL
 )
 
-project(ImageStack VERSION 0.1.0 LANGUAGES C CXX)
+project(ImageStack VERSION 0.1.0 LANGUAGES CXX)
 
 if (NOT TARGET doc)
   find_package(Doxygen)
