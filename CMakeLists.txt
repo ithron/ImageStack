@@ -24,45 +24,6 @@ if (NOT TARGET doc)
   endif()
 endif()
 
-set(DEFAULT_COMPILE_FEATURES
-  cxx_alias_templates
-  cxx_alignas
-  cxx_auto_type
-  cxx_binary_literals
-  cxx_constexpr
-  cxx_decltype
-  cxx_decltype_auto
-  cxx_default_function_template_args
-  cxx_defaulted_functions
-  cxx_defaulted_move_initializers
-  cxx_delegating_constructors
-  cxx_deleted_functions
-  cxx_explicit_conversions
-  cxx_generalized_initializers
-  cxx_generic_lambdas
-  cxx_inheriting_constructors
-  cxx_inline_namespaces
-  cxx_lambdas
-  cxx_lambda_init_captures
-  cxx_long_long_type
-  cxx_noexcept
-  cxx_nullptr
-  cxx_override
-  cxx_range_for
-  cxx_raw_string_literals
-  cxx_reference_qualified_functions
-  cxx_return_type_deduction
-  cxx_right_angle_brackets
-  cxx_rvalue_references
-  cxx_sizeof_member
-  cxx_static_assert
-  cxx_strong_enums
-  cxx_trailing_return_types
-  cxx_uniform_initialization
-  cxx_variadic_templates
-  cxx_template_template_parameters
-)
-
 if (("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" MATCHES "AppleClang"))
   set(DEFAULT_COMPILER_OPTIONS
     -Werror
@@ -125,11 +86,12 @@ find_package(Eigen3 CONFIG REQUIRED)
 include(ImportMKL)
 
 add_library(ImageStack INTERFACE)
-target_compile_features(ImageStack INTERFACE ${DEFAULT_COMPILE_FEATURES})
+target_compile_features(ImageStack INTERFACE cxx_std_14)
 target_compile_options(ImageStack INTERFACE ${DEFAULT_COMPILER_OPTIONS})
 target_link_libraries(ImageStack INTERFACE Microsoft.GSL::GSL Eigen3::Eigen)
 target_include_directories(ImageStack INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
 )
 
 add_library(ImageStack::ImageStack ALIAS ImageStack)
