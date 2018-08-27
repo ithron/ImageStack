@@ -15,6 +15,7 @@ template <class T> class HostStorage {
 public:
   using ValueType = T;
   using Pointer = T *;
+  using ConstPointer = T const *;
 
   /// @brief Create host storage object and allocate memory
   /// @tparam Size model of \ref MultiIndexConcept with at least 3 dimensions
@@ -82,14 +83,15 @@ public:
   /// @return MappedHostMemory object representing the mapping
   inline auto map() noexcept {
     Expects(!empty());
-    return MappedHostMemory<T, 3>(storage_.data(), size_);
+    return MappedHostMemory<T, 3>(not_null<Pointer>(storage_.data()), size_);
   }
 
   /// @brief Maps to storage to host memory and returs a const memory mapping
   /// object
   /// @return const MappedHostMemory object representing the mapping
   inline auto map() const noexcept {
-    return MappedHostMemory<T const, 3>(storage_.data(), size_);
+    return MappedHostMemory<T const, 3>(
+        not_null<ConstPointer>(storage_.data()), size_);
   }
 
   /// @brief Returns true if the the storage is empty, i.e. no memory is
