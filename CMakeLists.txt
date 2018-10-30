@@ -26,8 +26,8 @@ endif()
 
 if (("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" MATCHES "AppleClang"))
   set(DEFAULT_COMPILER_OPTIONS
-    -Werror
-    -Weverything
+    $<BUILD_INTERFACE:-Werror>
+    $<BUILD_INTERFACE:-Weverything>
 #disable warnings
     -Wno-c++98-compat
     -Wno-c++98-compat-bind-to-temporary-copy
@@ -45,7 +45,7 @@ if (("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" 
 endif()
 if (${CMAKE_COMPILER_IS_GNUCXX})
   set(DEFAULT_COMPILER_OPTIONS
-    -Werror
+    $<BUILD_INTERFACE:-Werror>
     -Wall -Wextra -pedantic
 #disable warnings
     -Wno-unknown-pragmas
